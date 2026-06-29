@@ -520,7 +520,7 @@ class DeepAnalyzeCLI:
 
         while True:
             try:
-                # 使用简单的输入提示，避免使用终端控制序列
+                # Use simple prompt to avoid terminal control sequences
                 user_input = input("You: ").strip()
 
                 # Save history after each valid input

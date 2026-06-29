@@ -3,19 +3,39 @@ import json
 import time
 from typing import Dict, Any
 
-# 原始完整回复文本（不再按行拆分，后续逐字处理）
-FULL_RESPONSE_TEXT = """我正在分析您提供的数据...
+# Mock assistant response text (streamed character-by-character)
+FULL_RESPONSE_TEXT = """<Analyze>
+To analyze the provided sales dataset, we need to inspect the monthly revenue figures and calculate the quarterly growth rate.
+</Analyze>
+<Code>
+```python
+import pandas as pd
+df = pd.DataFrame({
+    'Quarter': ['Q1', 'Q2', 'Q3', 'Q4'],
+    'Revenue ($k)': [1250, 1180, 1420, 1690]
+})
+growth = df['Revenue ($k)'].pct_change() * 100
+print(df)
+```
+</Code>
+<Execute>
+```
+  Quarter  Revenue ($k)
+0      Q1          1250
+1      Q2          1180
+2      Q3          1420
+3      Q4          1690
+```
+</Execute>
+<Answer>
+### Comprehensive Sales Trend Analysis:
+1. **Q1 Revenue**: Strong start with $1,250k.
+2. **Q2 Variance**: Minor seasonal contraction (-5.6%) down to $1,180k.
+3. **H2 Acceleration**: Substantial rebound in Q3 ($1,420k) and annual peak in Q4 ($1,690k).
+4. **Summary**: Overall full-year trajectory reflects a healthy 35.2% annualized expansion.
+</Answer>"""
 
-从数据中可以观察到以下趋势：
-1. 第一季度销售额呈现稳步增长
-2. 第二季度出现小幅回落
-3. 第三、四季度恢复增长态势
-
-生成的可视化图表已准备就绪，您可以通过链接下载查看。
-这不是真实的vllm服务，仅用于测试连通性
-This is not a real vLLM service; it is only used for connectivity testing."""
-
-# 生成的文件信息
+# Mock generated files
 GENERATED_FILES = [
     {
         "name": "sales_trend.png",
@@ -24,25 +44,22 @@ GENERATED_FILES = [
 ]
 
 class VLLMHandler(http.server.BaseHTTPRequestHandler):
-    # 禁用默认日志
+    # Disable default access logging
     def log_message(self, format, *args):
         return
 
     def _send_sse_response(self):
-        """发送逐字流式的SSE响应（核心修改）"""
-        # 设置SSE标准响应头
+        """Send character-by-character SSE streaming response."""
         self.send_response(200)
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Connection", "keep-alive")
         self.end_headers()
 
-        # 固定响应参数
         chunk_id = f"chatcmpl-{int(time.time() * 1000)}"
         created_time = int(time.time())
         model = "DeepAnalyze-8B"
 
-        # 核心修改：将完整文本拆分为单个字符（逐字输出）
         char_list = list(FULL_RESPONSE_TEXT)
         for char in char_list:
             chunk = {
@@ -53,18 +70,17 @@ class VLLMHandler(http.server.BaseHTTPRequestHandler):
                 "choices": [
                     {
                         "index": 0,
-                        "delta": {"content": char},  # 每次仅返回一个字符
+                        "delta": {"content": char},
                         "finish_reason": None
                     }
                 ]
             }
-            # SSE格式：data: {json}\n\n
             sse_line = f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
             self.wfile.write(sse_line.encode("utf-8"))
             self.wfile.flush()
-            time.sleep(0.05)  # 逐字间隔（可调整：0.05秒/字，更流畅）
+            time.sleep(0.01)
 
-        # 发送结束块
+        # Send final chunk
         final_chunk = {
             "id": chunk_id,
             "object": "chat.completion.chunk",
@@ -83,19 +99,19 @@ class VLLMHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(final_sse_line.encode("utf-8"))
         self.wfile.flush()
 
-        # 发送SSE结束标志
+        # Send SSE DONE marker
         self.wfile.write(b"data: [DONE]\n\n")
         self.wfile.flush()
 
     def _send_json_response(self, status_code: int, content: Dict[str, Any]):
-        """发送非流式JSON响应"""
+        """Send non-streaming JSON response."""
         self.send_response(status_code)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.end_headers()
         self.wfile.write(json.dumps(content, ensure_ascii=False).encode("utf-8"))
 
     def do_POST(self) -> None:
-        """处理POST请求"""
+        """Handle POST request."""
         if self.path == "/v1/chat/completions":
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
@@ -106,7 +122,7 @@ class VLLMHandler(http.server.BaseHTTPRequestHandler):
                 if stream:
                     self._send_sse_response()
                 else:
-                    # 非流式返回完整文本
+                    # Non-streaming return full response
                     full_response = {
                         "id": f"chatcmpl-{int(time.time() * 1000)}",
                         "object": "chat.completion",
@@ -148,7 +164,7 @@ class VLLMHandler(http.server.BaseHTTPRequestHandler):
             self._send_json_response(404, {"error": "Endpoint not found"})
 
     def do_GET(self) -> None:
-        """处理GET请求"""
+        """Handle GET request."""
         if self.path == "/health":
             self._send_json_response(200, {"status": "healthy", "timestamp": int(time.time())})
         elif self.path == "/v1/models":
@@ -157,20 +173,19 @@ class VLLMHandler(http.server.BaseHTTPRequestHandler):
             self._send_json_response(404, {"error": "Endpoint not found"})
 
 def run_server(host: str = "0.0.0.0", port: int = 8000) -> None:
-    """启动模拟vLLM服务器"""
+    """Start mock vLLM server."""
     server = http.server.ThreadingHTTPServer((host, port), VLLMHandler)
-    print(f"✅ 模拟vLLM服务器启动成功（逐字流式输出）")
-    print(f"   - 地址: http://{host}:{port}")
-    print(f"   - 逐字间隔: 0.05秒/字符（可修改time.sleep值调整）")
-    print(f"   - 按 Ctrl+C 停止服务器\n")
+    print(f"✅ Mock vLLM server started successfully (streaming)")
+    print(f"   - Address: http://{host}:{port}")
+    print(f"   - Press Ctrl+C to stop server\n")
     
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\n🛑 服务器正在停止...")
+        print("\n🛑 Stopping server...")
         server.shutdown()
         server.server_close()
-        print("✅ 服务器已停止")
+        print("✅ Server stopped")
 
 if __name__ == "__main__":
 

@@ -17,7 +17,7 @@ def simple_chat():
     response = requests.post(f"{API_BASE}/v1/chat/completions", json={
         "model": MODEL,
         "messages": [
-            {"role": "user", "content": "用一句话介绍Python编程语言"}
+            {"role": "user", "content": "Introduce the Python programming language in one sentence."}
         ],
         "temperature": 0.3
     })
@@ -48,7 +48,7 @@ def chat_with_file():
     response = requests.post(f"{API_BASE}/v1/chat/completions", json={
         "model": MODEL,
         "messages": [
-            {"role": "user", "content": "分析哪种教学方法效果更好。"}
+            {"role": "user", "content": "Analyze which teaching method delivers better outcomes."}
         ],
         "file_ids": [file_id],
         "temperature": 0.3
@@ -85,7 +85,7 @@ def file_ids_in_messages():
         "messages": [
             {
                 "role": "user",
-                "content": "分析数据并生成可视化图表。",
+                "content": "Analyze the dataset and generate visualization charts.",
                 "file_ids": [file_id]  # can both be inside message and top-level, for compatibility with OpenAI API
             }
         ],
@@ -128,7 +128,7 @@ def streaming_chat():
             "messages": [
                 {
                     "role": "user",
-                    "content": "分析数据并生成趋势图。",
+                    "content": "Analyze the dataset and plot trend graphs.",
                     "file_ids": [file_id]
                 }
             ],
@@ -192,7 +192,7 @@ def multi_turn_example():
     print("\n1️⃣ First request - examining data structure...")
     conversation_history.append({
         "role": "user",
-        "content": "请查看这个数据文件的结构，告诉我有哪些字段、数据类型和基本统计信息。"
+        "content": "Please inspect this dataset structure, including fields, data types, and summary statistics."
     })
 
     print("Streaming response...")
@@ -253,7 +253,7 @@ def multi_turn_example():
     print(f"\n2️⃣ Second request - generating analysis report (with thread_id: {thread_id[:12] if thread_id else 'None'}...)...")
     conversation_history.append({
         "role": "user",
-        "content": "基于刚才的数据结构分析，请生成一个详细的数据分析报告，包括：\n1. 数据质量评估\n2. 各字段的数据分布\n3. 相关性分析\n4. 主要发现和洞察"
+        "content": "Based on the structure analysis, generate a detailed data analysis report including:\n1. Data quality assessment\n2. Field distributions\n3. Correlation analysis\n4. Key findings and insights"
     })
     if thread_id:
         conversation_history[-1]["thread_id"] = thread_id

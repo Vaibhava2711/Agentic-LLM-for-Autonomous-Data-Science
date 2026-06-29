@@ -129,7 +129,7 @@ async def chat_completions(
                 tracker = WorkspaceTracker(workspace_dir, generated_dir)
 
                 while not finished:
-                    # 使用异步客户端
+                    # Use async client
                     response = await vllm_client_async.chat.completions.create(
                         model=model,
                         messages=vllm_messages,
@@ -145,7 +145,7 @@ async def chat_completions(
                     cur_res = ""
                     last_chunk = None
 
-                    # 使用异步迭代
+                    # Use async iteration
                     async for chunk in response:
                         last_chunk = chunk
                         if chunk.choices and chunk.choices[0].delta.content is not None:

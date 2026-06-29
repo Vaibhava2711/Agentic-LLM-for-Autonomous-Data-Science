@@ -367,7 +367,7 @@ Extended chat completion with file support.
   "messages": [
     {
       "role": "user",
-      "content": "分析这个数据文件",
+      "content": "Analyze this dataset and extract key trends",
       "file_ids": ["file-abc123"],     // OpenAI compatible: file_ids in messages
       "thread_id": "thread-xyz789..."  // Optional: thread_id in latest message for workspace persistence
     }
@@ -390,7 +390,7 @@ Extended chat completion with file support.
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "分析结果...",
+        "content": "Analysis results...",
         "thread_id": "thread-abc123...", // Thread ID for workspace persistence
         "files": [                      // New format: files in message
           {
@@ -414,7 +414,7 @@ Extended chat completion with file support.
 
 **Response (Streaming):**
 ```
-data: {"id": "chatcmpl-xyz789...", "object": "chat.completion.chunk", "choices": [{"delta": {"content": "分析"}}]}
+data: {"id": "chatcmpl-xyz789...", "object": "chat.completion.chunk", "choices": [{"delta": {"content": "Analysis"}}]}
 data: {"id": "chatcmpl-xyz789...", "object": "chat.completion.chunk", "choices": [{"delta": {"files": [{"name":"chart.png","url":"..."}], "thread_id": "thread-abc123..."}, "finish_reason": "stop"}]}
 data: [DONE]
 ```

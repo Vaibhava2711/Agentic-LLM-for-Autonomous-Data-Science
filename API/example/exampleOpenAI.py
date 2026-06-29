@@ -60,7 +60,7 @@ def chat_completion_with_message_file_ids():
         messages = [
             {
                 "role": "user",
-                "content": "分析数据，总结主要发现。",
+                "content": "Analyze the dataset and summarize key findings.",
                 "file_ids": [file_obj.id]
             }
         ]
@@ -102,7 +102,7 @@ def multi_turn_example():
         print("1️⃣ First request - examining data structure...")
         messages.append({
             "role": "user",
-            "content": "请查看这个数据文件的结构，告诉我有哪些字段、数据类型和基本统计信息。",
+            "content": "Please inspect this dataset structure, including fields, data types, and summary statistics.",
             "file_ids": [file_obj.id]
         })
 
@@ -144,7 +144,7 @@ def multi_turn_example():
         print(f"\n2️⃣ Second request - generating analysis report (with thread_id: {thread_id[:12] if thread_id else 'None'}...)...")
         messages.append({
             "role": "user",
-            "content": "基于刚才的数据结构分析，请生成一个详细的数据分析报告，包括：\n1. 数据质量评估\n2. 各字段的数据分布\n3. 相关性分析\n4. 主要发现和洞察",
+            "content": "Based on the structure analysis, generate a detailed data analysis report including:\n1. Data quality assessment\n2. Field distributions\n3. Correlation analysis\n4. Key findings and insights",
             "file_ids": [file_obj.id]
         })
         if thread_id:
@@ -203,7 +203,7 @@ def streaming_chat_completion_with_files():
         messages = [
             {
                 "role": "user",
-                "content": "分析数据并生成可视化图表。",
+                "content": "Analyze the dataset and generate visualization charts.",
                 "file_ids": [file_obj.id]
             }
         ]

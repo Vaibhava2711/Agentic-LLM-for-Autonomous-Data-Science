@@ -260,11 +260,11 @@ def extract_sections_from_history(messages: List[Dict[str, str]]) -> str:
     appendix: List[str] = []
     tag_pattern = re.compile(r"<(Analyze|Understand|Code|Execute|File|Answer)>([\s\S]*?)</\1>")
 
-    # 收集所有用户和助手消息对，用于构建完整的对话历史
+    # Collect user and assistant message pairs to build full interaction history
     conversation_pairs: List[Dict[str, Any]] = []
     user_message = None
 
-    # 第一轮遍历：收集用户-助手消息对
+    # First pass: collect user-assistant message pairs
     for msg in messages:
         if not isinstance(msg, dict):
             continue
@@ -280,8 +280,8 @@ def extract_sections_from_history(messages: List[Dict[str, str]]) -> str:
             })
             user_message = None
 
-    # 第二轮遍历：处理助手响应的标签内容
-    # 找到最后一轮对话的Answer内容作为报告主体
+    # Second pass: process assistant response tag content
+    # Find the Answer content from the last conversation turn as the report body
     last_answer_content = ""
     for msg in messages:
         if not isinstance(msg, dict):
@@ -290,7 +290,7 @@ def extract_sections_from_history(messages: List[Dict[str, str]]) -> str:
             continue
         content = str(msg.get("content", ""))
 
-        # 提取所有Answer标签内容，保留最后一次的
+        # Extract all Answer tags, preserving the final one
         answer_matches = tag_pattern.finditer(content)
         for match in answer_matches:
             tag, segment = match.groups()
@@ -299,29 +299,29 @@ def extract_sections_from_history(messages: List[Dict[str, str]]) -> str:
                 if segment:
                     last_answer_content = segment
 
-    # 将最后一轮的Answer内容添加到报告主体
+    # Add the final Answer content to the report body
     if last_answer_content:
         parts.append(f"{last_answer_content}\n")
 
-    # 构建报告附件：包含所有对话轮次，每轮对话前加上用户指令
+    # Build report appendix: includes all conversation rounds with user instructions
     conversation_round = 1
     for pair in conversation_pairs:
         user_content = pair["user"].strip()
         assistant_content = pair["assistant"]
 
-        # 添加用户指令
-        appendix.append(f"\n## 对话轮次 {conversation_round}\n\n")
-        appendix.append(f"### 用户指令\n\n{user_content}\n\n")
-        appendix.append(f"### 助手响应\n\n")
+        # Append user instruction
+        appendix.append(f"\n## Conversation Round {conversation_round}\n\n")
+        appendix.append(f"### User Instruction\n\n{user_content}\n\n")
+        appendix.append(f"### Assistant Response\n\n")
 
-        # 处理助手响应中的标签
+        # Process step tags in assistant response
         step = 1
         for match in tag_pattern.finditer(assistant_content):
             tag, segment = match.groups()
             segment = (segment or "").strip()
             if not segment:
                 continue
-            appendix.append(f"#### 步骤 {step}: {tag}\n\n{segment}\n")
+            appendix.append(f"#### Step {step}: {tag}\n\n{segment}\n")
             step += 1
 
         conversation_round += 1
@@ -329,7 +329,7 @@ def extract_sections_from_history(messages: List[Dict[str, str]]) -> str:
     final_text = "".join(parts).strip()
     if appendix:
         final_text += (
-            "\n\n\\newpage\n\n# 附录：完整对话过程\n"
+            "\n\n\\newpage\n\n# Appendix: Full Interaction Log\n"
             + "".join(appendix).strip()
         )
 
@@ -494,7 +494,7 @@ def render_file_block(
 def start_http_server():
     os.makedirs(WORKSPACE_BASE_DIR, exist_ok=True)
 
-    # 使用 ThreadingTCPServer 处理并发
+    # Use ThreadingTCPServer to handle concurrent requests
     handler = partial(
         http.server.SimpleHTTPRequestHandler,
         directory=WORKSPACE_BASE_DIR
