@@ -401,7 +401,6 @@ def test_predict_with_generate():
         TrainArguments(
             model="Qwen/Qwen2-7B-Instruct",
             dataset=["AI-ModelScope/alpaca-gpt4-data-en#40"],
-            split_dataset_ratio=0.01,
             predict_with_generate=True,
             split_dataset_ratio=0.5,
             **kwargs
@@ -420,7 +419,6 @@ def test_predict_with_generate_zero3():
         TrainArguments(
             model="Qwen/Qwen2-VL-7B-Instruct",
             dataset=["AI-ModelScope/LaTeX_OCR#40"],
-            split_dataset_ratio=0.01,
             predict_with_generate=True,
             freeze_vit=False,
             split_dataset_ratio=0.5,

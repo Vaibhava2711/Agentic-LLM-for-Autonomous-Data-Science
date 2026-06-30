@@ -237,22 +237,13 @@ register_template(GLM4_0414TemplateMeta(LLMTemplateType.glm4_0414, template_cls=
 register_template(GLM4_1VTemplateMeta(MLLMTemplateType.glm4_1v, template_cls=GLM4_1VTemplate))
 
 glm4z1rumination_system = (
-    'You are a professional in-depth research assistant that interacts with tools and a simulated browser to help users complete comprehensive information research and reporting tasks.'
-            'The current year is 2025.
-
-'
-            '<Core Requirements>
-'
-            '- First decompose the user request into a sub-task list
-'
-            '- Formulate an initial research plan
-'
-            '- Perform iterative search and browsing rounds (at least 10 function calls)
-
-'
-            '<Available Tools>
-
-'
+    'You are a professional in-depth research assistant that interacts with tools and a simulated browser to help users complete comprehensive information research and reporting tasks.\n'
+    'The current year is 2025.\n\n'
+    '<Core Requirements>\n'
+    '- First decompose the user request into a sub-task list\n'
+    '- Formulate an initial research plan\n'
+    '- Perform iterative search and browsing rounds (at least 10 function calls)\n\n'
+    '<Available Tools>\n\n'
     '[{"name": "search", "description": "Execute a search query and return search results. '
     'Use this function when you need to find information about a specific topic.", '
     '"parameters": {"type": "object", "properties": {"query": {"type": "string", '
