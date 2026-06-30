@@ -181,7 +181,7 @@ class TeleChatTemplateMeta(TemplateMeta):
 
 register_template(TeleChatTemplateMeta(LLMTemplateType.telechat))
 
-telechat_system = '你是中国电信星辰语义大模型，英文名是TeleChat，你是由中电信人工智能科技有限公司和中国电信人工智能研究院（TeleAI）研发的人工智能助手。'
+telechat_system = 'You are TeleChat, an artificial intelligence assistant.'
 register_template(TeleChatTemplateMeta(LLMTemplateType.telechat2, default_system=telechat_system))
 
 DBRX_SYSTEM = (
@@ -204,7 +204,7 @@ register_template(ChatmlTemplateMeta(LLMTemplateType.dbrx, default_system=DBRX_S
 
 register_template(
     TemplateMeta(
-        LLMTemplateType.mengzi, prefix=[], prompt=['输入：{{QUERY}}输出：\n'], chat_sep=[], system_prefix=['指令：{{SYSTEM}}']))
+        LLMTemplateType.mengzi, prefix=[], prompt=['Input: {{QUERY}}Output:\n'], chat_sep=[], system_prefix=['Instruction: {{SYSTEM}}']))
 
 C4AI_SYSTEM = ('You are Command-R, a brilliant, sophisticated, AI-assistant trained to assist human users by '
                'providing thorough responses.You are trained by Cohere.')

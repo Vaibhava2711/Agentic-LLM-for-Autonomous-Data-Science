@@ -441,7 +441,7 @@ def test_template():
             model="Qwen/Qwen2-0.5B",
             dataset=["swift/self-cognition#200"],
             split_dataset_ratio=0.01,
-            model_name=["小黄"],
+            model_name=["DeepAnalyze"],
             model_author=["swift"],
             **kwargs
         )

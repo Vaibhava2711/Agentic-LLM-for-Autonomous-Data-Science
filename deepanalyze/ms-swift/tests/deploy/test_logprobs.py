@@ -17,13 +17,13 @@ def _test_client(port: int, print_logprobs: bool = False, test_vlm: bool = False
         break
 
     if test_vlm:
-        query = "这是什么"
+        query = "What is this?"
         # http://modelscope-open.oss-cn-hangzhou.aliyuncs.com/images/cat.png
         messages = [
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "这是什么"},
+                    {"type": "text", "text": "What is this?"},
                     {"type": "image_url", "image_url": {"url": "cat.png"}},
                 ],
             }

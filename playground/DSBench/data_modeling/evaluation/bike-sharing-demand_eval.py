@@ -5,7 +5,7 @@ import pandas as pd
 import argparse
 
 
-# 计算RMSLE
+# Compute RMSLE
 def rmsle(predicted, actual):
     sum_log_diff = np.sum((np.log(predicted + 1) - np.log(actual + 1)) ** 2)
     mean_log_diff = sum_log_diff / len(predicted)

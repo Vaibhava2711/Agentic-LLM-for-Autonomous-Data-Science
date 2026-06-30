@@ -63,11 +63,11 @@ class LastRoundLossScale(LossScale):
 In the above code, a `Tuple` is returned where the first element is the `context` (or its split parts), and the second element is the corresponding `loss_scale`. The float value represents the weight. For example, the following weight settings:
 
 ```text
-["学习", "好", "数学", "是", "重要", "的"]
+["learning", "good", "math", "is", "important", "here"]
 [1.0, 0.5, 2.0, 0.5, 2.0, 0.1]
 ```
 
-Here, we place more emphasis on the words "数学" (mathematics) and "重要" (important) by increasing their weights to 2.0.
+Here, we place more emphasis on the words "math" and "important" by increasing their weights to 2.0.
 
 Referring back to the code, we check if the provided `context` is a response. If it is a response and is the last round in a multi-turn dialogue, we return a `loss_scale` of `[1]`. In other cases, we use the base implementation (which sets `loss_scale` to `[0]`). This approach ensures that only the responses from the last round participate in training, while other responses do not. Using this method, we can make all tokens (prompts and responses) participate in training or focus on specific special characters of the agent for training, etc.
 

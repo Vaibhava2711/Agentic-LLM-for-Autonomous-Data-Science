@@ -1,9 +1,9 @@
 import { loader } from '@monaco-editor/react';
 
-// 配置Monaco编辑器使用本地资源
+// Configure Monaco editor to use local resources
 export function configureMonaco() {
     if (typeof window !== 'undefined') {
-        // 使用本地 node_modules 中的 monaco-editor
+        // Use monaco-editor from local node_modules
         loader.config({
             paths: {
                 vs: '/monaco-editor/min/vs'

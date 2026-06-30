@@ -5,7 +5,7 @@ import pandas as pd
 import argparse
 
 
-# 定义 SMAPE 计算函数
+# Define SMAPE metric function
 def smape(y_true, y_pred):
     return (
         100

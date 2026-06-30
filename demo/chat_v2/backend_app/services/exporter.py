@@ -431,7 +431,7 @@ def _sanitize_filename_component(
     if not text:
         return fallback
 
-    # Windows 禁止字符 + 控制字符（避免写文件时报错）
+    # Sanitize Windows forbidden characters and control characters
     text = re.sub(r'[<>:"/\\|?*\x00-\x1F]+', "_", text)
     text = re.sub(r"\s+", "_", text)
     text = re.sub(r"_+", "_", text).strip(" ._")

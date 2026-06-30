@@ -149,7 +149,7 @@ class BaseAgentTemplate(ReactCompatMixin, ABC):
             else json.dumps(parameters, ensure_ascii=False)
         )
         args_format = (
-            "此工具的输入应为JSON对象。"
+            "The input to this tool should be a JSON object."
             if lang == "zh"
             else "Format the arguments as a JSON object."
         )

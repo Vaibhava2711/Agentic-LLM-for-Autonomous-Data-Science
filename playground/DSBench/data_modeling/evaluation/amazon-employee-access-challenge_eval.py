@@ -18,7 +18,7 @@ parser.add_argument("--value", type=str, default="ACTION")
 args = parser.parse_args()
 
 
-# 定义 RMSLE 计算函数
+# Define RMSLE metric function
 def rmsle(y_true, y_pred):
     return np.sqrt(np.mean((np.log1p(y_pred) - np.log1p(y_true)) ** 2))
 

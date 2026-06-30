@@ -20,7 +20,7 @@ from .qwen import Qwen2_5TemplateMeta, QwenTemplateMeta
 @dataclass
 class MinicpmTemplateMeta(TemplateMeta):
     prefix: Prompt = field(default_factory=lambda: ['<s>{{SYSTEM}}'])
-    prompt: Prompt = field(default_factory=lambda: ['<用户>{{QUERY}}<AI>'])
+    prompt: Prompt = field(default_factory=lambda: ['<User>{{QUERY}}<AI>'])
     chat_sep: Optional[Prompt] = field(default_factory=list)
     suffix: Prompt = field(default_factory=lambda: ['</s>'])
 

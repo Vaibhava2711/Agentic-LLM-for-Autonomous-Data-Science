@@ -20,11 +20,11 @@ args = parser.parse_args()
 actual = pd.read_csv(args.answer_file)
 submission = pd.read_csv(args.predict_file)
 
-# 移除id列，剩下的是矩阵的值
+# Drop ID column, leaving matrix values
 submission_values = submission.drop(columns=["id"]).values
 actual_values = actual.drop(columns=["id"]).values
 
-# 计算平均绝对误差
+# Compute mean absolute error
 performance = np.mean(np.abs(submission_values - actual_values))
 
 

@@ -52,7 +52,7 @@ def quadratic_weighted_kappa(actual, predicted, N):
     return 1 - num / den
 
 
-# 计算平均错误率
+# Compute average error rate
 performance = quadratic_weighted_kappa(actual[args.value], submission[args.value], 10)
 
 

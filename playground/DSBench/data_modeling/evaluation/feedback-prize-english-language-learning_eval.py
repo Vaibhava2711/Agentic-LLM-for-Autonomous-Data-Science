@@ -21,7 +21,7 @@ submission = pd.read_csv(args.predict_file)
 
 def mcrmse(y_true, y_pred):
     """
-    计算Mean Columnwise Root Mean Squared Error (MCRMSE)
+    Compute Mean Columnwise Root Mean Squared Error (MCRMSE)
     """
     assert (
         y_true.shape == y_pred.shape
@@ -30,15 +30,15 @@ def mcrmse(y_true, y_pred):
     return columnwise_rmse.mean()
 
 
-# 提取实际标签和预测结果
+# Extract ground truth labels and predictions
 actual_values = actual.iloc[
     :, 1:
-].values  # 假设实际标签文件中第一列是text_id，后面是实际标签值
+].values  # Assuming first column is text_id, followed by actual labels
 predicted_values = submission.iloc[
     :, 1:
-].values  # 假设提交文件中第一列是text_id，后面是预测标签值
+].values  # Assuming first column is text_id, followed by predicted labels
 
-# 计算MAP@3
+# Compute MAP@3
 performance = mcrmse(actual_values, predicted_values)
 
 with open(os.path.join(args.path, args.name, "result.txt"), "w") as f:

@@ -25,9 +25,9 @@ predictions = pd.read_csv(args.predict_file)
 
 answers.sort_values(by=["ID_LAT_LON_YEAR_WEEK"])
 predictions.sort_values(by=["ID_LAT_LON_YEAR_WEEK"])
-# 提取预测值和实际标签
+# Extract predictions and ground truth labels
 predicted_values = predictions["emission"].values
-actual_values = answers["emission"].values  # 修改列名为answers
+actual_values = answers["emission"].values  # Use answers column
 
 
 smape = sqrt(mean_squared_error(actual_values, predicted_values))

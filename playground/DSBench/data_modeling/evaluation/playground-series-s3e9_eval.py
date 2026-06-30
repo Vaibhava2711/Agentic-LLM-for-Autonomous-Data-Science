@@ -33,7 +33,7 @@ def calculate_rmse(actual, predicted):
     return rmse
 
 
-# 计算平均错误率
+# Compute average error rate
 performance = calculate_rmse(actual[args.value], submission[args.value])
 
 

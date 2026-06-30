@@ -28,7 +28,7 @@ def mean_absolute_error(y_true, y_pred):
 actual = pd.read_csv(args.answer_file)
 submission = pd.read_csv(args.predict_file)
 
-# 提取实际值和预测值
+# Extract ground truth and predicted values
 actual_values = actual[["winner_model_a", "winner_model_b", "winner_tie"]].values
 predicted_values = submission[["winner_model_a", "winner_model_b", "winner_tie"]].values
 

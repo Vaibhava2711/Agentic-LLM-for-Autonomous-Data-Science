@@ -164,7 +164,7 @@ When running in Colocate mode, out-of-memory (OOM) issues may frequently occur. 
 5. Gather model weights in batches (when synchronizing vLLM weights under zero3):
 
 ```bash
---move_model_batches [批次数量]
+--move_model_batches [num_batches]
 ```
 
 ### 2. Async(External) Mode

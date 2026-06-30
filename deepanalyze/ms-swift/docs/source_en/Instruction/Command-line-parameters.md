@@ -66,8 +66,8 @@ Hints:
 - 🔥remove_unused_columns: Whether to remove unused columns in the dataset, defaults to True.
   - If this parameter is set to False, the extra dataset columns will be passed to the trainer's `compute_loss` function, making it easier to customize the loss function.
   - For GPRO, the default value of this parameter is False.
-- 🔥model_name: Only applicable to the self-cognition task and effective only on the `swift/self-cognition` dataset. It replaces the `{{NAME}}` placeholder in the dataset. Input the model's name in both Chinese and English, separated by a space, for example: `--model_name 小黄 'Xiao Huang'`. Default is None.
-- 🔥model_author: Only applicable to the self-cognition task and effective only on the `swift/self-cognition` dataset. It replaces the `{{AUTHOR}}` placeholder in the dataset. Input the model author's name in both Chinese and English, separated by a space, for example: `--model_author '魔搭' 'ModelScope'`. Default is None.
+- 🔥model_name: Only applicable to the self-cognition task and effective only on the `swift/self-cognition` dataset. It replaces the `{{NAME}}` placeholder in the dataset, for example: `--model_name 'DeepAnalyze' 'DeepAnalyze'`. Default is None.
+- 🔥model_author: Only applicable to the self-cognition task and effective only on the `swift/self-cognition` dataset. It replaces the `{{AUTHOR}}` placeholder in the dataset, for example: `--model_author 'Vaibhav Goyal' 'Vaibhav Goyal'`. Default is None.
 - custom_dataset_info: The path to the JSON file for custom dataset registration. Refer to [Custom Dataset](../Customization/Custom-dataset.md). Default is `[]`.
 
 

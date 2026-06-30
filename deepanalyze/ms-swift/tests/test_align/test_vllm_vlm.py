@@ -71,7 +71,7 @@ def _infer_video(
 def test_qwen2_audio():
     response = _infer_audio("Qwen/Qwen2-Audio-7B-Instruct")
     assert (
-        response == "The audio is a man speaking in Mandarin saying '今天天气真好呀'."
+        response == "The audio is a man speaking saying 'The weather is really nice today'."
     )
 
 

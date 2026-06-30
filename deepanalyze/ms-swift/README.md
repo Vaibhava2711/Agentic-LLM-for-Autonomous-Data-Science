@@ -7,8 +7,6 @@
 <p>
 <p align="center">
 <a href="https://modelscope.cn/home">ModelScope Community Website</a>
-<br>
-        <a href="README_CN.md">中文</a> &nbsp ｜ &nbsp English &nbsp
 </p>
 
 <p align="center">
@@ -16,7 +14,6 @@
 <img src="https://img.shields.io/badge/pytorch-%E2%89%A52.0-orange.svg">
 <a href="https://github.com/modelscope/modelscope/"><img src="https://img.shields.io/badge/modelscope-%E2%89%A51.19-5D91D4.svg"></a>
 <a href="https://pypi.org/project/ms-swift/"><img src="https://badge.fury.io/py/ms-swift.svg"></a>
-<a href="https://github.com/modelscope/ms-swift/blob/main/LICENSE"><img src="https://img.shields.io/github/license/modelscope/ms-swift"></a>
 <a href="https://pepy.tech/project/ms-swift"><img src="https://pepy.tech/badge/ms-swift"></a>
 <a href="https://github.com/modelscope/ms-swift/pulls"><img src="https://img.shields.io/badge/PR-welcome-55EB99.svg"></a>
 </p>
@@ -26,7 +23,7 @@
 </p>
 
 <p align="center">
-        <a href="https://arxiv.org/abs/2408.05517">Paper</a> &nbsp ｜ <a href="https://swift.readthedocs.io/en/latest/">English Documentation</a> &nbsp ｜ &nbsp <a href="https://swift.readthedocs.io/zh-cn/latest/">中文文档</a> &nbsp
+        <a href="https://arxiv.org/abs/2408.05517">Paper</a> &nbsp; ｜ <a href="https://swift.readthedocs.io/en/latest/">English Documentation</a>
 </p>
 
 ## 📖 Table of Contents

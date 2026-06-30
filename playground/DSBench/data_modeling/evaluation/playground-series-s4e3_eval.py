@@ -7,13 +7,13 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import roc_auc_score
 
 
-# 计算多类对数损失
+# Compute multiclass log loss
 def multiclass_logloss(actuals, predictions):
-    epsilon = 1e-15  # 避免对数运算中的数值问题
+    epsilon = 1e-15  # Avoid numerical instability in logarithm
     predictions = np.clip(
         predictions, epsilon, 1 - epsilon
-    )  # 限制预测概率的范围，防止对数为无穷
-    predictions /= predictions.sum(axis=1)[:, np.newaxis]  # 归一化确保总和为1
+    )  # Clip predicted probabilities to prevent log of zero
+    predictions /= predictions.sum(axis=1)[:, np.newaxis]  # Normalize to ensure probabilities sum to 1
     log_pred = np.log(predictions)
     loss = -np.sum(actuals * log_pred) / len(actuals)
     return loss
@@ -33,7 +33,7 @@ args = parser.parse_args()
 actual = pd.read_csv(args.answer_file)
 submission = pd.read_csv(args.predict_file)
 
-# 定义要计算的类别
+# Define target evaluation classes
 categories = [
     "Pastry",
     "Z_Scratch",
@@ -44,14 +44,14 @@ categories = [
     "Other_Faults",
 ]
 
-# 提取数据并计算每个类别的 ROC AUC 分数
+# Extract data and compute ROC-AUC score per class
 auc_scores = {}
 for category in categories:
     y_true = actual[category].values
     y_pred = submission[category].values
     auc_scores[category] = roc_auc_score(y_true, y_pred)
 
-# 计算平均 AUC 分数
+# Compute average AUC score
 performance = sum(auc_scores.values()) / len(auc_scores)
 
 with open(os.path.join(args.path, args.name, "result.txt"), "w") as f:

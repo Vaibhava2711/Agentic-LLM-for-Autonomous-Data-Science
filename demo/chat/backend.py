@@ -48,7 +48,7 @@ plt.rcParams['axes.unicode_minus'] = False
 def execute_code_safe(
     code_str: str, workspace_dir: str = None, timeout_sec: int = 120
 ) -> str:
-    """在独立进程中执行代码，支持超时，避免阻塞主进程。"""
+    """Execute code in a separate process with timeout support."""
     if workspace_dir is None:
         workspace_dir = WORKSPACE_BASE_DIR
     exec_cwd = os.path.abspath(workspace_dir)
@@ -59,7 +59,7 @@ def execute_code_safe(
         os.close(fd)
         with open(tmp_path, "w", encoding="utf-8") as f:
             f.write(code_str)
-        # 在子进程中设置无界面环境变量，避免 GUI 后端
+        # Set headless environment in subprocess to avoid GUI backend
         child_env = os.environ.copy()
         child_env.setdefault("MPLBACKEND", "Agg")
         child_env.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -106,7 +106,7 @@ HTTP_SERVER_BASE = (
 
 
 def get_session_workspace(session_id: str) -> str:
-    """返回指定 session 的 workspace 路径（workspace/{session_id}/）。"""
+    """Return workspace directory for session (workspace/{session_id}/)."""
     if not session_id:
         session_id = "default"
     session_dir = os.path.join(WORKSPACE_BASE_DIR, session_id)
@@ -136,7 +136,7 @@ app.add_middleware(
 
 
 def start_http_server():
-    """启动HTTP文件服务器（不修改全局工作目录）。"""
+    """Start HTTP file server without changing global working directory."""
     os.makedirs(WORKSPACE_BASE_DIR, exist_ok=True)
     handler = partial(
         http.server.SimpleHTTPRequestHandler, directory=WORKSPACE_BASE_DIR
@@ -151,7 +151,7 @@ threading.Thread(target=start_http_server, daemon=True).start()
 
 
 def collect_file_info(directory: str) -> str:
-    """收集文件信息"""
+    """Collect file metadata."""
     all_file_info_str = ""
     dir_path = Path(directory)
     if not dir_path.exists():
@@ -169,7 +169,7 @@ def collect_file_info(directory: str) -> str:
 
 
 def get_file_icon(extension):
-    """获取文件图标"""
+    """Get icon for file type."""
     ext = extension.lower()
     icons = {
         (".jpg", ".jpeg", ".png", ".gif", ".bmp"): "🖼️",
@@ -191,7 +191,7 @@ def get_file_icon(extension):
 
 
 def uniquify_path(target: Path) -> Path:
-    """若目标已存在，生成 'name (1).ext'、'name (2).ext' 形式的新路径。"""
+    """Generate unique file path if target already exists."""
     if not target.exists():
         return target
     parent = target.parent
@@ -222,10 +222,10 @@ def uniquify_path(target: Path) -> Path:
 # API Routes
 @app.get("/workspace/files")
 async def get_workspace_files(session_id: str = Query("default")):
-    """获取工作区文件列表（支持 session 隔离）"""
+    """Retrieve workspace file list with session isolation."""
     workspace_dir = get_session_workspace(session_id)
     generated_dir = Path(workspace_dir) / "generated"
-    # 获取 generated 目录下的文件名集合
+    # Collect files under generated directory
     generated_files = (
         set(f.name for f in generated_dir.iterdir() if f.is_file())
         if generated_dir.exists()
@@ -289,7 +289,7 @@ def build_tree(path: Path, root: Optional[Path] = None) -> dict:
     if path.is_dir():
         children = []
 
-        # 自定义排序：generated 文件夹放在最后，其他按目录优先、名称排序
+        # Custom sort: generated folder last, directories first, alphabetical
         def sort_key(p):
             is_generated = p.name == "generated"
             is_dir = p.is_dir()
@@ -315,10 +315,10 @@ async def workspace_tree(session_id: str = Query("default")):
     root = Path(workspace_dir)
     tree_data = build_tree(root, root)
 
-    # 在下载链接前加上 session_id 前缀
+    # Prepend session_id to download link
     def prefix_urls(node, sid):
         if "download_url" in node and node["download_url"]:
-            # 重新构建包含 session_id 的路径
+            # Rebuild path including session_id
             rel = node.get("path", "")
             node["download_url"] = build_download_url(f"{sid}/{rel}")
         if "children" in node:
@@ -356,9 +356,9 @@ async def move_path(
     dst_dir: str = Query("", description="relative target directory under workspace"),
     session_id: str = Query("default"),
 ):
-    """在同一 workspace 内移动（或重命名）文件/目录。
-    - src: 源相对路径（必填）
-    - dst_dir: 目标目录（相对路径，空表示移动到根目录）
+    """Move or rename file/directory within same workspace.
+    - src: source relative path
+    - dst_dir: destination directory (empty string for root)
     """
     workspace_dir = get_session_workspace(session_id)
     abs_workspace = Path(workspace_dir).resolve()
@@ -390,7 +390,7 @@ async def delete_workspace_dir(
     recursive: bool = Query(True, description="delete directory recursively"),
     session_id: str = Query("default"),
 ):
-    """删除 workspace 下的目录。默认递归删除，禁止删除根目录。"""
+    """Delete directory in workspace recursively. Root deletion prohibited."""
     workspace_dir = get_session_workspace(session_id)
     abs_workspace = Path(workspace_dir).resolve()
     target = (abs_workspace / path).resolve()
@@ -434,12 +434,12 @@ async def proxy(url: str):
 async def upload_files(
     files: List[UploadFile] = File(...), session_id: str = Query("default")
 ):
-    """上传文件到工作区（支持 session 隔离）"""
+    """Upload file to workspace with session isolation."""
     workspace_dir = get_session_workspace(session_id)
     uploaded_files = []
 
     for file in files:
-        # 唯一化文件名，避免覆盖
+        # Ensure unique filename to prevent overwrite
         dst = uniquify_path(Path(workspace_dir) / file.filename)
         with open(dst, "wb") as buffer:
             content = await file.read()
@@ -460,7 +460,7 @@ async def upload_files(
 
 @app.delete("/workspace/clear")
 async def clear_workspace(session_id: str = Query("default")):
-    """清空工作区（支持 session 隔离）"""
+    """Clear workspace with session isolation."""
     workspace_dir = get_session_workspace(session_id)
     if os.path.exists(workspace_dir):
         shutil.rmtree(workspace_dir)
@@ -474,7 +474,7 @@ async def upload_to_dir(
     files: List[UploadFile] = File(...),
     session_id: str = Query("default"),
 ):
-    """上传文件到 workspace 下的指定子目录（仅限工作区内）。"""
+    """Upload file to specified workspace subdirectory."""
     workspace_dir = get_session_workspace(session_id)
     abs_workspace = Path(workspace_dir).resolve()
     target_dir = (abs_workspace / dir).resolve()
@@ -503,7 +503,7 @@ async def upload_to_dir(
 
 @app.post("/execute")
 async def execute_code_api(request: dict):
-    """执行 Python 代码"""
+    """Execute Python code."""
     try:
         code = request.get("code", "")
         session_id = request.get("session_id", "default")
@@ -512,7 +512,7 @@ async def execute_code_api(request: dict):
         if not code:
             raise HTTPException(status_code=400, detail="No code provided")
 
-        # 使用子进程安全执行，避免 GUI/线程问题（在指定 session workspace 中）
+        # Safely execute code in subprocess within session workspace
         result = await run_in_threadpool(execute_code_safe, code, workspace_dir)
 
         return {
@@ -563,24 +563,24 @@ def fix_code_block(content):
 
 def fix_tags_and_codeblock(s: str) -> str:
     """
-    修复未闭合的tags，并确保</Code>后代码块闭合。
+    Fix unclosed tags and ensure code block closes after </Code>.
     """
     pattern = re.compile(
         r"<(Analyze|Understand|Code|Execute|Answer)>(.*?)(?:</\1>|(?=$))", re.DOTALL
     )
 
-    # 找所有匹配
+    # Find all matches
     matches = list(pattern.finditer(s))
     if not matches:
-        return s  # 没有标签，直接返回
+        return s  # No tags found, return as-is
 
-    # 检查最后一个匹配是否闭合
+    # Check if last match is closed
     last_match = matches[-1]
     tag_name = last_match.group(1)
     matched_text = last_match.group(0)
 
     if not matched_text.endswith(f"</{tag_name}>"):
-        # 没有闭合，补上
+        # Close unclosed tag
         if tag_name == "Code":
             s = fix_code_block(s) + f"\n```\n</{tag_name}>"
         else:
@@ -593,7 +593,7 @@ def bot_stream(messages, workspace, session_id="default"):
     original_cwd = os.getcwd()
     WORKSPACE_DIR = get_session_workspace(session_id)
     os.makedirs(WORKSPACE_DIR, exist_ok=True)
-    # 创建 generated 子文件夹用于存放代码生成的文件
+    # Create generated directory for code artifacts
     GENERATED_DIR = os.path.join(WORKSPACE_DIR, "generated")
     os.makedirs(GENERATED_DIR, exist_ok=True)
     # print(messages)
@@ -653,7 +653,7 @@ def bot_stream(messages, workspace, session_id="default"):
                 md_match = re.search(r"```(?:python)?(.*?)```", code_content, re.DOTALL)
                 code_str = md_match.group(1).strip() if md_match else code_content
                 code_str = Chinese_matplot_str + "\n" + code_str
-                # 执行前快照（路径 -> (size, mtime)）
+                # Pre-execution snapshot: path -> (size, mtime)
                 try:
                     before_state = {
                         p.resolve(): (p.stat().st_size, p.stat().st_mtime_ns)
@@ -662,9 +662,9 @@ def bot_stream(messages, workspace, session_id="default"):
                     }
                 except Exception:
                     before_state = {}
-                # 在子进程中以固定工作区执行
+                # Execute in subprocess with isolated workspace
                 exe_output = execute_code_safe(code_str, WORKSPACE_DIR)
-                # 执行后快照
+                # Post-execution snapshot
                 try:
                     after_state = {
                         p.resolve(): (p.stat().st_size, p.stat().st_mtime_ns)
@@ -673,7 +673,7 @@ def bot_stream(messages, workspace, session_id="default"):
                     }
                 except Exception:
                     after_state = {}
-                # 计算新增与修改
+                # Compute newly created and modified files
                 added_paths = [p for p in after_state.keys() if p not in before_state]
                 modified_paths = [
                     p
@@ -681,11 +681,11 @@ def bot_stream(messages, workspace, session_id="default"):
                     if p in before_state and after_state[p] != before_state[p]
                 ]
 
-                # 将新增和修改的文件移动到 generated 文件夹
+                # Move created and modified files to generated folder
                 artifact_paths = []
                 for p in added_paths:
                     try:
-                        # 如果文件不在 generated 文件夹中，移动它
+                        # Move file if not already in generated folder
                         if not str(p).startswith(GENERATED_DIR):
                             dest_path = Path(GENERATED_DIR) / p.name
                             dest_path = uniquify_path(dest_path)
@@ -697,7 +697,7 @@ def bot_stream(messages, workspace, session_id="default"):
                         print(f"Error moving file {p}: {e}")
                         artifact_paths.append(p)
 
-                # 为修改的文件生成副本并移动到 generated 文件夹
+                # Copy modified file to generated folder
                 for p in modified_paths:
                     try:
                         dest_name = f"{Path(p).stem}_modified{Path(p).suffix}"
@@ -708,7 +708,7 @@ def bot_stream(messages, workspace, session_id="default"):
                     except Exception as e:
                         print(f"Error copying modified file {p}: {e}")
 
-                # 旧：Execute 内部放控制台输出；新：追加 <File> 段落给前端渲染卡片
+                # Append <File> card blocks for frontend rendering
                 exe_str = f"\n<Execute>\n```\n{exe_output}\n```\n</Execute>\n"
                 file_block = ""
                 if artifact_paths:
@@ -722,7 +722,7 @@ def bot_stream(messages, workspace, session_id="default"):
                             )
                         except Exception:
                             rel = Path(p).name
-                        # 在相对路径前加上 session_id 前缀
+                        # Prepend session_id prefix to relative path
                         url = build_download_url(f"{session_id}/{rel}")
                         name = Path(p).name
                         lines.append(f"- [{name}]({url})")
@@ -741,7 +741,7 @@ def bot_stream(messages, workspace, session_id="default"):
                 assistant_reply += full_execution_block
                 yield full_execution_block
                 messages.append({"role": "execute", "content": f"{exe_output}"})
-                # 刷新工作区快照（路径集合）
+                # Refresh workspace snapshot
                 current_files = set(
                     [
                         os.path.join(WORKSPACE_DIR, f)
@@ -767,23 +767,23 @@ async def chat(body: dict = Body(...)):
             # print(delta_content)
             chunk = {
                 "id": "chatcmpl-stream",
-                "object": "chat.completion.chunk",  # 标识为流式块
+                "object": "chat.completion.chunk",  # Streaming chunk identifier
                 "created": 1677652288,
                 "model": MODEL_PATH,
                 "choices": [
                     {
                         "index": 0,
-                        # 3. 使用 delta 字段而非 message 字段
+                        # Use delta field for streaming
                         "delta": {
-                            "content": delta_content  # 直接填入原始内容，不要调用 fix_tags
+                            "content": delta_content
                         },
-                        "finish_reason": None,  # 传输中为 None
+                        "finish_reason": None,
                     }
                 ],
             }
 
             yield json.dumps(chunk) + "\n"
-            # 5. 循环结束后，发送一个结束标记 (Optional, 但推荐)
+            # Send completion chunk at end of stream
         end_chunk = {
             "id": "chatcmpl-stream",
             "object": "chat.completion.chunk",
@@ -801,7 +801,7 @@ from datetime import datetime
 
 
 def _extract_sections_from_messages(messages: list[dict]) -> str:
-    """从历史消息中抽取 <Answer>..</Answer> 作为报告主体，其余部分按原始顺序作为 Appendix 拼成 Markdown。"""
+    """Extract <Answer> as report body and append interaction history."""
     if not isinstance(messages, list):
         return ""
     import re as _re
@@ -818,7 +818,7 @@ def _extract_sections_from_messages(messages: list[dict]) -> str:
         content = str((m or {}).get("content") or "")
 
         step = 1
-        # 按照在文本中的出现顺序依次提取
+        # Extract in original sequential order
         for match in _re.finditer(tag_pattern, content, _re.DOTALL):
             tag, seg = match.groups()
             seg = seg.strip()
@@ -873,32 +873,32 @@ from typing import Optional
 
 
 def _render_md_to_html(md_text: str, title: Optional[str] = None) -> str:
-    """简化为占位实现（仅供未来 PDF 渲染使用）。当前仅生成 MD。"""
+    """Placeholder for future PDF rendering. Currently generates MD."""
     doc_title = (title or "Report").strip() or "Report"
     safe = (md_text or "").replace("<", "&lt;").replace(">", "&gt;")
     return f"<html><head><meta charset='utf-8'><title>{doc_title}</title></head><body><pre>{safe}</pre></body></html>"
 
 
 def _save_pdf_from_md(html_text: str, base_name: str) -> Path:
-    """TODO: 服务端 PDF 渲染未实现。"""
+    """TODO: Server-side PDF rendering not implemented."""
     raise NotImplementedError("TODO: implement server-side PDF rendering")
 
 
 def _save_pdf_with_chromium(html_text: str, base_name: str) -> Path:
-    """TODO: 使用 Chromium 渲染 PDF（暂不实现）。"""
+    """TODO: Chromium PDF rendering (stub)."""
     raise NotImplementedError("TODO: chromium-based PDF rendering")
 
 
 def _save_pdf_from_text(text: str, base_name: str) -> Path:
-    """TODO: 纯文本 PDF 渲染（暂不实现）。"""
+    """TODO: Plaintext PDF rendering (stub)."""
     raise NotImplementedError("TODO: text-based PDF rendering")
 
 
 @app.post("/export/report")
 async def export_report(body: dict = Body(...)):
     """
-    接收全部聊天历史（messages: [{role, content}...]），抽取 <Analyze>..</Analyze> ~ <Answer>..</Answer>
-    仅生成 Markdown 文件并保存到 workspace；PDF 渲染留作 TODO。
+    Receive complete chat history (messages: [{role, content}...]), extract <Analyze>..</Analyze> ~ <Answer>..</Answer>
+    Generates Markdown report in workspace.
     """
     try:
         messages = body.get("messages", [])
@@ -925,7 +925,7 @@ async def export_report(body: dict = Body(...)):
 
         md_path = _save_md(md_text, base_name, export_dir)
 
-        # PDF 暂不生成（TODO）。
+        # PDF rendering reserved as TODO.
         pdf_path = _save_pdf(md_text, base_name, export_dir)
 
         result = {
@@ -949,7 +949,7 @@ async def export_report(body: dict = Body(...)):
 
 
 if __name__ == "__main__":
-    print("🚀 启动后端服务...")
-    print(f"   - API服务: http://localhost:8200")
-    print(f"   - 文件服务: http://localhost:8100")
+    print("🚀 Starting backend services...")
+    print(f"   - API Service: http://localhost:8200")
+    print(f"   - File Service: http://localhost:8100")
     uvicorn.run(app, host="0.0.0.0", port=8200)

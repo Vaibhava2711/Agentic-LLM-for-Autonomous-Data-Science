@@ -20,7 +20,7 @@ if __name__ == "__main__":
     infer_batch(
         engine,
         [
-            InferRequest(messages=[{"role": "user", "content": "今天天气真好呀"}]),
-            InferRequest(messages=[{"role": "user", "content": "真倒霉"}]),
+            InferRequest(messages=[{"role": "user", "content": "The weather is really nice today"}]),
+            InferRequest(messages=[{"role": "user", "content": "So unlucky"}]),
         ],
     )

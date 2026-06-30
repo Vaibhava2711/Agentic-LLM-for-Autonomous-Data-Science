@@ -1,27 +1,26 @@
-// API配置
+// API Configuration
 export const API_CONFIG = {
-  // 后端API基础地址
+  // Backend API base address
   BACKEND_BASE_URL:
     process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8200",
 
-  // 静态文件服务基础地址（前端可配置下载/预览所使用的文件基址）
-  // 例如：http://<server-ip>:8100 或 https://cdn.example.com
+  // Static file server base URL (for downloading and previewing generated artifacts)
   FILE_SERVER_BASE:
     process.env.NEXT_PUBLIC_FILE_SERVER_BASE || "http://localhost:8100",
 
-  // 模拟AI API地址
+  // Model inference API address
   AI_API_BASE_URL:
     process.env.NEXT_PUBLIC_AI_API_URL || "http://localhost:8000",
 
-  // WebSocket地址
+  // WebSocket address
   WEBSOCKET_URL: process.env.NEXT_PUBLIC_WEBSOCKET_URL || "ws://localhost:8001",
 
-  // API端点
+  // API endpoints
   ENDPOINTS: {
-    // 聊天
+    // Chat
     CHAT_COMPLETIONS: "/chat/completions",
 
-    // 文件管理
+    // File and workspace management
     WORKSPACE_FILES: "/workspace/files",
     WORKSPACE_TREE: "/workspace/tree",
     WORKSPACE_UPLOAD: "/workspace/upload",
@@ -30,15 +29,15 @@ export const API_CONFIG = {
     WORKSPACE_UPLOAD_TO: "/workspace/upload-to",
     WORKSPACE_DELETE_DIR: "/workspace/dir",
 
-    // 代码执行
+    // Code execution
     EXECUTE_CODE: "/execute",
 
-    // 导出报告
+    // Report export
     EXPORT_REPORT: "/export/report",
   },
 };
 
-// 构建完整的API URL
+// Build full API URL
 export const buildApiUrl = (
   endpoint: string,
   baseUrl: string = API_CONFIG.BACKEND_BASE_URL
@@ -46,9 +45,9 @@ export const buildApiUrl = (
   return `${baseUrl}${endpoint}`;
 };
 
-// 预定义的API URLs
+// Predefined API URLs
 export const API_URLS = {
-  // 后端服务
+  // Backend services
   WORKSPACE_FILES: buildApiUrl(API_CONFIG.ENDPOINTS.WORKSPACE_FILES),
   WORKSPACE_TREE: buildApiUrl(API_CONFIG.ENDPOINTS.WORKSPACE_TREE),
   WORKSPACE_UPLOAD: buildApiUrl(API_CONFIG.ENDPOINTS.WORKSPACE_UPLOAD),
@@ -61,6 +60,6 @@ export const API_URLS = {
   EXECUTE_CODE: buildApiUrl(API_CONFIG.ENDPOINTS.EXECUTE_CODE),
   EXPORT_REPORT: buildApiUrl(API_CONFIG.ENDPOINTS.EXPORT_REPORT),
 
-  // AI服务
+  // AI service
   CHAT_COMPLETIONS: buildApiUrl(API_CONFIG.ENDPOINTS.CHAT_COMPLETIONS),
 };

@@ -22,8 +22,8 @@ def load_ds(ds):
         split_dataset_ratio=0.0,
         strict=False,
         num_proc=1,
-        model_name=["小黄", "Xiao Huang"],
-        model_author=["魔搭", "ModelScope"],
+        model_name=["DeepAnalyze", "DeepAnalyze"],
+        model_author=["Vaibhav Goyal", "Vaibhav Goyal"],
     )
     return train_dataset.select(range(1))
 

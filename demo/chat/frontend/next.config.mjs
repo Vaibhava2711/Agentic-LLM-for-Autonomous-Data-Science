@@ -10,7 +10,7 @@ const nextConfig = {
     unoptimized: true,
   },
   webpack: (config, { isServer }) => {
-    // 配置 Monaco Editor 使用本地资源
+    // Configure Monaco Editor to use local resources
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,

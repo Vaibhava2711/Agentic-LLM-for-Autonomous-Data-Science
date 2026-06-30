@@ -17,7 +17,7 @@ parser.add_argument("--value", type=str, default="yield")
 args = parser.parse_args()
 
 
-# 计算 Jaccard 相似度
+# Compute Jaccard similarity
 def jaccard(str1, str2):
     a = set(str1.lower().split())
     b = set(str2.lower().split())
@@ -28,7 +28,7 @@ def jaccard(str1, str2):
 answers = pd.read_csv(args.answer_file)
 predictions = pd.read_csv(args.predict_file)
 
-# 提取数据
+# Extract data
 y_true = answers["selected_text"].values
 y_pred = predictions["selected_text"].values
 

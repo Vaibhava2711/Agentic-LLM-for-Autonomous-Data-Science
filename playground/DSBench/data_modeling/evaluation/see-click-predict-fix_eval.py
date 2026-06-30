@@ -30,7 +30,7 @@ def rmsle(y_true, y_pred):
     return np.sqrt(np.mean((np.log1p(y_pred) - np.log1p(y_true)) ** 2))
 
 
-# 提取预测值和实际值
+# Extract predictions and ground truth values
 y_pred_views = predictions["num_views"]
 y_true_views = answers["num_views"]
 y_pred_votes = predictions["num_votes"]
@@ -38,7 +38,7 @@ y_true_votes = answers["num_votes"]
 y_pred_comments = predictions["num_comments"]
 y_true_comments = answers["num_comments"]
 
-# 计算RMSLE
+# Compute RMSLE
 rmsle_views = rmsle(y_true_views, y_pred_views)
 rmsle_votes = rmsle(y_true_votes, y_pred_votes)
 rmsle_comments = rmsle(y_true_comments, y_pred_comments)

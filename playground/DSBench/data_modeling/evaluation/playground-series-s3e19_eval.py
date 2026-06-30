@@ -23,9 +23,9 @@ args = parser.parse_args()
 answers = pd.read_csv(args.answer_file)
 predictions = pd.read_csv(args.predict_file)
 
-# 提取预测值和实际标签
+# Extract predictions and ground truth labels
 predicted_values = predictions["num_sold"].values
-actual_values = answers["num_sold"].values  # 修改列名为answers
+actual_values = answers["num_sold"].values  # Use answers column
 
 
 smape = np.mean(

@@ -86,7 +86,7 @@ class InternvlTemplate(Template):
 register_template(
     ChatmlTemplateMeta(
         MLLMTemplateType.internvl,
-        default_system='You are an AI assistant whose name is InternLM (书生·浦语).',
+        default_system='You are an AI assistant whose name is InternLM.',
         template_cls=InternvlTemplate,
         auto_add_bos=True))
 register_template(
@@ -150,7 +150,7 @@ class Internvl2Template(InternvlTemplate):
         return encoded
 
 
-_internvl2_system = '你是由上海人工智能实验室联合商汤科技开发的书生多模态大模型，英文名叫InternVL, 是一个有用无害的人工智能助手。'
+_internvl2_system = 'You are InternVL, a multimodal large language model, a helpful and harmless artificial intelligence assistant.'
 register_template(
     ChatmlTemplateMeta(
         MLLMTemplateType.internvl2,
@@ -169,4 +169,4 @@ register_template(
     ChatmlTemplateMeta(
         MLLMTemplateType.internvl2_5,
         template_cls=Internvl2Template,
-        default_system='你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。'))
+        default_system='You are InternVL, a multimodal large language model.'))

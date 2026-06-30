@@ -48,8 +48,8 @@ class DataArguments:
     strict: bool = False
     remove_unused_columns: bool = True
     # Chinese name and English name
-    model_name: Optional[List[str]] = field(default=None, metadata={'help': "e.g. ['小黄', 'Xiao Huang']"})
-    model_author: Optional[List[str]] = field(default=None, metadata={'help': "e.g. ['魔搭', 'ModelScope']"})
+    model_name: Optional[List[str]] = field(default=None, metadata={'help': "e.g. ['DeepAnalyze', 'DeepAnalyze']"})
+    model_author: Optional[List[str]] = field(default=None, metadata={'help': "e.g. ['Vaibhav Goyal', 'Vaibhav Goyal']"})
 
     custom_dataset_info: List[str] = field(default_factory=list)  # .json
 

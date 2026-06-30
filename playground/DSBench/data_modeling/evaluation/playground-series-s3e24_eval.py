@@ -23,7 +23,7 @@ args = parser.parse_args()
 answers = pd.read_csv(args.answer_file)
 predictions = pd.read_csv(args.predict_file)
 
-# 提取预测概率和实际标签
+# Extract predicted probabilities and ground truth labels
 predicted_probabilities = predictions["smoking"].values
 actual_labels = answers["smoking"].values  #
 

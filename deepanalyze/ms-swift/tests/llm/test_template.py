@@ -17,12 +17,12 @@ def _infer_model(pt_engine, system=None, messages=None):
         messages = []
         if system is not None:
             messages += [{"role": "system", "content": system}]
-        messages += [{"role": "user", "content": "你好"}]
+        messages += [{"role": "user", "content": "Hello"}]
         resp = pt_engine.infer([{"messages": messages}], request_config=request_config)
         response = resp[0].choices[0].message.content
         messages += [
             {"role": "assistant", "content": response},
-            {"role": "user", "content": "<image>这是什么"},
+            {"role": "user", "content": "<image>What is this?"},
         ]
     resp = pt_engine.infer(
         [

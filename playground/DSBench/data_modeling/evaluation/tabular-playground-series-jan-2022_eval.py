@@ -8,7 +8,7 @@ import argparse
 def smape(actual, predicted):
     denominator = (np.abs(actual) + np.abs(predicted)) / 2.0
     diff = np.abs(actual - predicted) / denominator
-    diff[denominator == 0] = 0.0  # 避免除以零
+    diff[denominator == 0] = 0.0  # Avoid division by zero
     return 100 * np.mean(diff)
 
 

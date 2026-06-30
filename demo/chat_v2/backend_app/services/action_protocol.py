@@ -105,7 +105,7 @@ def validate_model_actions(content: str) -> list[ActionSection]:
 
 
 def normalize_model_output(content: str) -> tuple[str, list[ActionSection]]:
-    """将常见格式偏差整理为规范动作块，不猜测或补全截断代码。"""
+    """Normalize common formatting anomalies into standard action blocks without hallucinating truncated code."""
     raw = (content or "").strip()
     try:
         return raw, validate_model_actions(raw)
@@ -227,7 +227,7 @@ def find_completed_action_end(
     content: str,
     tags: tuple[str, ...] = ("Code", "Answer"),
 ) -> int | None:
-    """返回内容中第一个完整终止动作的边界位置。"""
+    """Return boundary position of the first complete terminal action tag in content."""
     masked = mask_backticked_content(content or "")
     boundaries = []
     for tag in tags:

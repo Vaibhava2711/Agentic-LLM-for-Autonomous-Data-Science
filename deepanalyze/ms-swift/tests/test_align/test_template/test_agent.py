@@ -25,8 +25,8 @@ tools = [
     },
     {
         "name_for_model": "tool2",
-        "name_for_human": "工具2",
-        "description": "Tool2的描述",
+        "name_for_human": "Tool 2",
+        "description": "Description of Tool 2",
     },
 ]
 
@@ -35,20 +35,20 @@ glm4_tools = [
         "type": "function",
         "function": {
             "name": "realtime_aqi",
-            "description": "天气预报。获取实时空气质量。当前空气质量，PM2.5，PM10信息",
+            "description": "Weather forecast. Get real-time air quality, PM2.5, PM10 information",
             "parameters": {
                 "type": "object",
-                "properties": {"city": {"description": "城市名"}},
+                "properties": {"city": {"description": "City name"}},
                 "required": ["city"],
             },
         },
     }
 ]
 glm4_tool_messasges = [
-    {"role": "tool", "content": '{"city": "北京", "aqi": "10", "unit": "celsius"}'},
-    {"role": "tool", "content": '{"city": "上海", "aqi": "72", "unit": "fahrenheit"}'},
+    {"role": "tool", "content": '{"city": "Beijing", "aqi": "10", "unit": "celsius"}'},
+    {"role": "tool", "content": '{"city": "Shanghai", "aqi": "72", "unit": "fahrenheit"}'},
 ]
-glm4_query = "北京和上海今天的天气情况"
+glm4_query = "Today's weather in Beijing and Shanghai"
 
 
 def _infer(
@@ -276,7 +276,7 @@ def test_glm4_0414():
     )
     assert (
         messages[-1]["content"]
-        == "根据天气预报工具，北京今天的空气质量指数为10，属于良好水平；上海今天的空气质量指数为72，属于轻度污染水平。"
+        == "According to the weather forecast tool, Beijing's air quality index today is 10 (good), while Shanghai's is 72 (mild pollution)."
     )
     template.set_mode("train")
     encoded = template.encode({"messages": messages})

@@ -6,13 +6,13 @@ import argparse
 from sklearn.metrics import f1_score
 
 
-# 计算多类对数损失
+# Compute multiclass log loss
 def multiclass_logloss(actuals, predictions):
-    epsilon = 1e-15  # 避免对数运算中的数值问题
+    epsilon = 1e-15  # Avoid numerical instability in logarithm
     predictions = np.clip(
         predictions, epsilon, 1 - epsilon
-    )  # 限制预测概率的范围，防止对数为无穷
-    predictions /= predictions.sum(axis=1)[:, np.newaxis]  # 归一化确保总和为1
+    )  # Clip predicted probabilities to prevent log of zero
+    predictions /= predictions.sum(axis=1)[:, np.newaxis]  # Normalize to ensure probabilities sum to 1
     log_pred = np.log(predictions)
     loss = -np.sum(actuals * log_pred) / len(actuals)
     return loss

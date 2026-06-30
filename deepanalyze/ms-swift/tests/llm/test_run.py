@@ -248,8 +248,8 @@ class TestRun(unittest.TestCase):
                 ],
                 resume_from_checkpoint=resume_from_checkpoint,
                 num_train_epochs=num_train_epochs,
-                model_name="小黄",
-                model_author="魔搭",
+                model_name="DeepAnalyze",
+                model_author="Vaibhav Goyal",
                 **train_kwargs,
             )
 

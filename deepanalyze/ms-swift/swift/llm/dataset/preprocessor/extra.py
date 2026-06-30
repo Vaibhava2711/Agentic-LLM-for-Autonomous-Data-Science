@@ -19,9 +19,9 @@ class GroundingMixin:
                    ('Detect <ref-object>', '<bbox>'), ('Locate <ref-object>', '<bbox>'),
                    ('Tell me the location of <ref-object>', '<bbox>'), ('Give the location of <ref-object>', '<bbox>'),
                    ('Provide the bounding box coordinate of <ref-object>', '<bbox>')],
-            'zh': [('<ref-object>', '<bbox>'), ('<ref-object>的位置在图片中', '<bbox>'), ('<ref-object>在图片中', '<bbox>'),
-                   ('<ref-object>在', '<bbox>'), ('找到<ref-object>的位置', '<bbox>'), ('<ref-object>在哪里', '<bbox>'),
-                   ('提供<ref-object>的坐标位置', '<bbox>')]
+            'zh': [('<ref-object>', '<bbox>'), ('Location of <ref-object> in image', '<bbox>'), ('<ref-object> in image', '<bbox>'),
+                   ('<ref-object> at', '<bbox>'), ('Find location of <ref-object>', '<bbox>'), ('Where is <ref-object>', '<bbox>'),
+                   ('Provide coordinates of <ref-object>', '<bbox>')]
         },
         'caption': {
             'en': [
@@ -35,12 +35,12 @@ class GroundingMixin:
             ],
             'zh': [
                 ('<bbox>', '<ref-object>'),
-                ('<bbox>是什么', '<ref-object>'),
-                ('<bbox>的位置包含', '<ref-object>'),
-                ('描述<bbox>', '<ref-object>'),
-                ('<bbox>中是', '<ref-object>'),
-                ('坐标<bbox>描述了什么', '<ref-object>'),
-                ('描述<bbox>中的事物', '<ref-object>'),
+                ('What is <bbox>', '<ref-object>'),
+                ('Location <bbox> contains', '<ref-object>'),
+                ('Describe <bbox>', '<ref-object>'),
+                ('Inside <bbox> is', '<ref-object>'),
+                ('Coordinates <bbox> describe what', '<ref-object>'),
+                ('Describe object in <bbox>', '<ref-object>'),
             ]
         },
     }

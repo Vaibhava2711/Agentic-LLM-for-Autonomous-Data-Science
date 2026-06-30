@@ -24,7 +24,7 @@ submission = pd.read_csv(args.predict_file)
 actual.sort_values(by=["PassengerId"])
 submission.sort_values(by=["PassengerId"])
 
-# 计算平均错误率
+# Compute average error rate
 performance = accuracy_score(actual[args.value], submission[args.value])
 
 

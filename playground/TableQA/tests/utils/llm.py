@@ -160,7 +160,7 @@ def call_api_with_retry(
 
 
 def initialize_client(model_info):
-    """初始化并返回客户端信息"""
+    """Initialize and return client configuration."""
     model_path = model_info.get("model_path", "")
     api_port = model_info.get("api_port", 8000)
 

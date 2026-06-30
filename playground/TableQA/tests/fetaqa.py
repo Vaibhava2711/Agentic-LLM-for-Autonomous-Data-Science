@@ -317,7 +317,7 @@ def process_fetaqa_data_batch(
                 # Extract final answer
                 generated_answer = extract_answer_from_response(response)
 
-                # 计算处理时间
+                # Compute processing duration
                 item_time = time.time() - item_start_time
 
                 # Log detailed information

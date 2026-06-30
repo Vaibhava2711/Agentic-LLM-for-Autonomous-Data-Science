@@ -104,9 +104,9 @@ class VLLMGenerator:
 
 def extract_python_block(text):
     """
-    从字符串中提取最后一个包含标记的```python ...```代码块
+    Extract the last ```python ...``` code block from string
     """
-    pattern = r"```python.*?```"  # 包括前后的```python 和 ```
+    pattern = r"```python.*?```"  # Match code blocks including delimiters
     matches = re.findall(pattern, text, flags=re.DOTALL)
     if matches:
         return matches[-1].strip()

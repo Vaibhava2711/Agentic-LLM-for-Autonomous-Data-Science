@@ -103,7 +103,7 @@ register_dataset(
 class SA1BPairedCaptionPreprocessor(RowPreprocessor):
 
     def preprocess(self, row: Dict[str, Any]) -> Dict[str, Any]:
-        prompt = ['图片中展示了什么', '讲述一下图片中内容', '告诉我里面有什么', '图片内容是啥']
+        prompt = ['What is shown in the image', 'Describe the content of the image', 'Tell me what is inside', 'What is in this picture']
         response = row['global_caption']
         query = np.random.choice(prompt)
         return {
@@ -133,7 +133,7 @@ class SA1BDenseCaptionPreprocessor(RowPreprocessor):
     }
 
     def preprocess(self, row: Dict[str, Any]) -> Dict[str, Any]:
-        prompt = ['图片中展示了什么', '讲述一下图片中内容', '告诉我里面有什么', '图片内容是啥']
+        prompt = ['What is shown in the image', 'Describe the content of the image', 'Tell me what is inside', 'What is in this picture']
         response = ast.literal_eval(row['cap_seg'])
         response = response.get('global_caption')
         query = np.random.choice(prompt)
@@ -310,7 +310,7 @@ register_dataset(
 class AIShell1Preprocessor(ResponsePreprocessor):
 
     def preprocess(self, row: Dict[str, Any]) -> Dict[str, Any]:
-        row['query'] = '语音转文本'
+        row['query'] = 'Speech to text'
         row['response'] = row['Text:LABEL'].replace(' ', '')
         return super().preprocess(row)
 

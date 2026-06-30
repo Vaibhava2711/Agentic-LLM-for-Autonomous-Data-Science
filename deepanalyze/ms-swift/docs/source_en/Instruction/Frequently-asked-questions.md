@@ -426,7 +426,7 @@ The vl model currently only supports flash-attn, but both are supported for pure
 
 ### Q122: Is the image list format for videos now supported? The format is as follows:
 ```json
-{"messages": [{"role": "assistant", "content": "<video>是一只狮子在跑步"}], "videos": [["1.jpg","2.jpg"]]}
+{"messages": [{"role": "assistant", "content": "<video> A lion running in the savanna"}], "videos": [["1.jpg","2.jpg"]]}
 ```
 It is supported, using the file directory method.
 

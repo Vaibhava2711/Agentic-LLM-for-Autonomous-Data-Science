@@ -337,10 +337,10 @@ def process_tatqa_data_batch(
                 table_uid = item["original_ids"]["table_uid"]
                 question_text = question_item["question"]
 
-                # 计算当前项是整个数据集中的第几项
+                # Compute global item index within dataset
                 global_item_index = batch_start + i + 1
 
-                # 记录详细的处理信息
+                # Log detailed processing information
                 logger.info(
                     f"Processing item {global_item_index}/{len(expanded_items)}... [ID: {item_id}]"
                 )
@@ -354,9 +354,9 @@ def process_tatqa_data_batch(
                 # Extract final answer
                 final_answer = extract_final_answer(response)
 
-                # 计算处理时间
+                # Compute processing duration
                 item_time = time.time() - item_start_time
-                # 记录详细日志
+                # Log detailed execution information
                 logger.info(f"Question: {question_text}")
                 logger.info(f"Gold answer: {gold_answer}")
                 logger.info(f"Answer type: {gold_answer_info['answer_type']}")

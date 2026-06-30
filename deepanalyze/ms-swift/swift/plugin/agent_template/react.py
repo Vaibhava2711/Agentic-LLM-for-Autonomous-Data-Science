@@ -54,28 +54,28 @@ class ReactZnAgentTemplate(BaseAgentTemplate):
             tool_desc = self._parse_tool(tool, "zh")
             tool_names.append(tool_desc.name_for_model)
             tool_descs.append(
-                f"{tool_desc.name_for_model}: 调用此工具与 {tool_desc.name_for_human} API 进行交互。"
-                f"{tool_desc.name_for_human} 有什么用？{tool_desc.description_for_model} "
-                f"输入参数：{tool_desc.parameters} {tool_desc.args_format}"
+                f"{tool_desc.name_for_model}: Invoke this tool to interact with {tool_desc.name_for_human} API."
+                f"What is {tool_desc.name_for_human} used for? {tool_desc.description_for_model} "
+                f"Input parameters: {tool_desc.parameters} {tool_desc.args_format}"
             )
         return (
-            """尽可能地回答以下问题。你可以使用以下工具:
+            """Answer the following questions as best as you can. You have access to the following tools:
 
 """
             + "\n\n".join(tool_descs)
             + f"""
 
-请按照以下格式进行:
+Use the following format:
 
-Question: 需要你回答的输入问题
-Thought: 你应该总是思考该做什么
-Action: 需要使用的工具，应该是[{','.join(tool_names)}]中的一个
-Action Input: 传入工具的内容
-Observation: 行动的结果
-... (这个Thought/Action/Action Input/Observation可以重复N次)
-Thought: 我现在知道最后的答案
-Final Answer: 对原始输入问题的最终答案
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{','.join(tool_names)}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
 
-现在开始！
+Begin!
 """
         )

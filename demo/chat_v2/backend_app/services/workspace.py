@@ -86,7 +86,7 @@ def _build_workspace_transfer_url(rel_path: str, *, download: bool) -> str:
 
 
 def _versioned_workspace_transfer_url(url: str, file_path: Path) -> str:
-    """为同名文件覆盖生成新的资源 URL，避免浏览器复用旧缓存。"""
+    """Generate versioned asset URL for overwritten files to bypass browser caching."""
     try:
         version = file_path.stat().st_mtime_ns
     except OSError:

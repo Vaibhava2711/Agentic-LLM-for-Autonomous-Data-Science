@@ -23,7 +23,7 @@ def _prepare(infer_backend: Literal["vllm", "pt", "lmdeploy"]):
         engine = VllmEngine("Qwen/Qwen2-7B-Instruct")
     template = get_template(engine.model_meta.template, engine.processor)
     infer_requests = [
-        # InferRequest([{'role': 'user', 'content': '晚上睡不着觉怎么办'}]) for i in range(100)
+        # InferRequest([{'role': 'user', 'content': 'What should I do if I cannot sleep at night?'}]) for i in range(100)
         InferRequest([{"role": "user", "content": "hello! who are you"}])
         for i in range(100)
     ]

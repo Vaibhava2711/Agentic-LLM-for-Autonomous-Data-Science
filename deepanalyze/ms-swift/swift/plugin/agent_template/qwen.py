@@ -62,7 +62,7 @@ class QwenZhAgentTemplate(BaseAgentTemplate):
             tool_descs.append(
                 f"### {tool_desc.name_for_human}\n\n"
                 f"{tool_desc.name_for_model}: {tool_desc.description_for_model} "
-                f"输入参数：{tool_desc.parameters} {tool_desc.args_format}"
+                f"Input parameters: {tool_desc.parameters} {tool_desc.args_format}"
             )
         return tool_names, tool_descs
 
@@ -73,20 +73,20 @@ class QwenZhAgentTemplate(BaseAgentTemplate):
         return (
             f"""{system}
 
-# 工具
+# Tools
 
-## 你拥有如下工具：
+## You have access to the following tools:
 
 """
             + "\n\n".join(tool_descs)
             + f"""
 
-## 你可以在回复中插入零次、一次或多次以下命令以调用工具：
+## Insert the following command in your reply to invoke tools:
 
-✿FUNCTION✿: 工具名称，必须是[{','.join(tool_names)}]之一。
-✿ARGS✿: 工具输入
-✿RESULT✿: 工具结果
-✿RETURN✿: 根据工具结果进行回复，需将图片用![](url)渲染出来"""
+✿FUNCTION✿: Tool name, must be one of [{','.join(tool_names)}].
+✿ARGS✿: Tool input
+✿RESULT✿: Tool result
+✿RETURN✿: Reply based on tool results. Images should be rendered as ![](url)"""
         )  # noqa
 
 
@@ -133,26 +133,26 @@ class QwenZhParallelAgentTemplate(QwenZhAgentTemplate):
         return (
             f"""{system}
 
-# 工具
+# Tools
 
-## 你拥有如下工具：
+## You have access to the following tools:
 
 """
             + "\n\n".join(tool_descs)
             + f"""
 
-## 你可以在回复中插入以下命令以并行调用N个工具：
+## Insert the following commands to invoke N tools in parallel:
 
-✿FUNCTION✿: 工具1的名称，必须是[{','.join(tool_names)}]之一
-✿ARGS✿: 工具1的输入
-✿FUNCTION✿: 工具2的名称
-✿ARGS✿: 工具2的输入
+✿FUNCTION✿: Name of tool 1, must be one of [{','.join(tool_names)}]
+✿ARGS✿: Input of tool 1
+✿FUNCTION✿: Name of tool 2
+✿ARGS✿: Input of tool 2
 ...
-✿FUNCTION✿: 工具N的名称
-✿ARGS✿: 工具N的输入
-✿RESULT✿: 工具1的结果
-✿RESULT✿: 工具2的结果
+✿FUNCTION✿: Name of tool N
+✿ARGS✿: Input of tool N
+✿RESULT✿: Result of tool 1
+✿RESULT✿: Result of tool 2
 ...
-✿RESULT✿: 工具N的结果
-✿RETURN✿: 根据工具结果进行回复，需将图片用![](url)渲染出来"""
+✿RESULT✿: Result of tool N
+✿RETURN✿: Reply based on tool results. Images should be rendered as ![](url)"""
         )  # noqa

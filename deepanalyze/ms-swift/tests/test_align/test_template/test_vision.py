@@ -13,12 +13,12 @@ def _infer_model(pt_engine, system=None, messages=None, images=None, **kwargs):
         messages = []
         if system is not None:
             messages += [{"role": "system", "content": system}]
-        messages += [{"role": "user", "content": "你好"}]
+        messages += [{"role": "user", "content": "Hello"}]
         resp = pt_engine.infer([{"messages": messages}], request_config=request_config)
         response = resp[0].choices[0].message.content
         messages += [
             {"role": "assistant", "content": response},
-            {"role": "user", "content": "<image>这是什么"},
+            {"role": "user", "content": "<image>What is this?"},
         ]
     else:
         messages = messages.copy()
@@ -42,7 +42,7 @@ def test_qwen2_vl():
     assert (
         response
         == response2
-        == "这是一只小猫的图片。它有黑白相间的毛发，眼睛大而圆，显得非常可爱。"
+        == "This is an image of a kitten with black and white fur, large round eyes, looking very cute."
     )
 
 
@@ -104,7 +104,7 @@ def test_internvl3_8b():
     pt_engine.default_template.template_backend = "jinja"
     response2 = _infer_model(
         pt_engine,
-        system="你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。",
+        system="You are InternVL, a multimodal large language model.",
     )
     assert response == response2
 
@@ -115,7 +115,7 @@ def test_internvl3_9b():
     pt_engine.default_template.template_backend = "jinja"
     response2 = _infer_model(
         pt_engine,
-        system="你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。",
+        system="You are InternVL, a multimodal large language model.",
     )
     assert response == response2
 
@@ -133,17 +133,17 @@ def test_yi_vl():
 def test_glm4v():
     # There will be differences in '\n'. This is normal.
     pt_engine = PtEngine("ZhipuAI/glm-4v-9b")
-    messages = [{"role": "user", "content": "描述这张图片"}]
+    messages = [{"role": "user", "content": "Describe this image"}]
     response = _infer_model(pt_engine, messages=messages)
     pt_engine.default_template.template_backend = "jinja"
     response2 = _infer_model(pt_engine, messages=messages)
     assert response == (
-        "这张图片是一只小猫的特写，它有着非常醒目的蓝色眼睛和混合了灰色、白色和棕色毛发的皮毛。小猫的耳朵竖立着，胡须清晰可见。它的眼神看起来既好奇又警觉，整体上显得非常可爱。"
+        "This image is a close-up of a kitten with striking blue eyes and mixed grey, white, and brown fur. Its ears are perked up with distinct whiskers, looking very cute."
     )
     assert response2 == (
-        "这是一张特写照片，展示了一只毛茸茸的小猫。小猫的眼睛大而圆，呈深蓝色，眼珠呈金黄色，非常明亮。它的鼻子短而小巧，"
-        "是粉色的。小猫的嘴巴紧闭，胡须细长。它的耳朵竖立着，耳朵内侧是白色的，外侧是棕色的。小猫的毛发看起来柔软而浓密，"
-        "主要是白色和棕色相间的花纹。背景模糊不清，但似乎是一个室内环境。"
+        "This is a close-up photograph showing a fluffy kitten with large, round dark blue eyes and bright features. Its nose is small,"
+        "pink, with slender whiskers and upright ears with soft, dense fur."
+        "The pattern is mainly white and brown, against a softly blurred indoor background."
     )
 
 
@@ -167,8 +167,8 @@ History steps:
         == response2
         == (
             """Action: Click on the 'Adobe Photoshop 2023' icon located in the middle of the screen to open the application.
-Grounded Operation: CLICK(box=[[346,574,424,710]], element_type='卡片', element_info='Adobe Photoshop 2023')
-<<一般操作>>"""
+Grounded Operation: CLICK(box=[[346,574,424,710]], element_type='card', element_info='Adobe Photoshop 2023')
+<<General Action>>"""
         )
     )
 
@@ -225,10 +225,10 @@ def test_got_ocr_hf():
         images=["https://modelscope-open.oss-cn-hangzhou.aliyuncs.com/images/ocr.png"],
     )
     assert response[:200] == (
-        "简介 SWIFT支持250+LLM和35+MLLM（多模态大模型）的训练、推理、 评测和部署。开发者可以直接将"
-        "我们的框架应用到自己的Research和 生产环境中，实现模型训练评测到应用的完整链路。我们除支持了 PEFT提供的轻量训练方案外"
-        "，也提供了一个完整的Adapters库以支持 最新的训练技术，如NEFTune、LoRA+、LLaMA-PRO等，这个适配器 库可以脱离训练脚本"
-        "直接使用在自己的"
+        "Introduction: Framework supports training, inference, evaluation, and deployment of 250+ LLMs and 35+ MLLMs. Developers can directly integrate"
+        "this framework into research and production workflows. Beyond standard PEFT techniques,"
+        " it provides a comprehensive adapters library supporting NEFTune, LoRA+, and LLaMA-PRO,"
+        "ready for direct usage in custom pipelines."
     )
 
 
@@ -303,12 +303,12 @@ def test_deepseek_vl():
 
 def test_deepseek_janus():
     pt_engine = PtEngine("deepseek-ai/Janus-Pro-7B")
-    messages = [{"role": "user", "content": "描述图片"}]
+    messages = [{"role": "user", "content": "Describe image"}]
     response = _infer_model(pt_engine, messages=messages)
     assert response == (
-        "这是一张非常可爱的猫咪图片。猫咪的毛色主要是白色，并带有灰色的条纹。它的眼睛非常大，呈现出明亮的蓝色，"
-        "显得非常可爱和无辜。猫咪的耳朵竖立着，显得非常警觉和好奇。背景模糊，使得猫咪成为图片的焦点。"
-        "整体画面给人一种温暖和愉悦的感觉。"
+        "This is a very cute cat photo. The fur is white with grey markings and large, bright blue eyes,"
+        "looking playful and inquisitive against a soft bokeh background."
+        "The overall image conveys a warm and delightful feeling."
     )
 
 
@@ -316,15 +316,15 @@ def test_deepseek_vl2():
     pt_engine = PtEngine("deepseek-ai/deepseek-vl2-small")
     response = _infer_model(pt_engine)
     assert response == (
-        "这是一只可爱的小猫。它有着大大的蓝色眼睛和柔软的毛发，看起来非常天真无邪。小猫的耳朵竖立着，显得非常警觉和好奇。"
-        "它的鼻子小巧而粉红，嘴巴微微张开，似乎在探索周围的环境。整体来看，这只小猫非常可爱，充满了活力和好奇心。"
+        "This is a cute kitten with big blue eyes and soft fur, with upright ears and alert curiosity."
+        "With a pink nose and lively expression, the kitten appears energetic and inquisitive."
     )
 
 
 def test_mplug_owl2():
     # pt_engine = PtEngine('iic/mPLUG-Owl2')
     pt_engine = PtEngine("iic/mPLUG-Owl2.1")
-    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}])
+    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}])
 
 
 def test_mplug_owl3():
@@ -347,7 +347,7 @@ def test_ovis1_6():
 
 def test_ovis1_6_llama3():
     pt_engine = PtEngine("AIDC-AI/Ovis1.6-Llama3.2-3B")
-    messages = [{"role": "user", "content": "这是什么"}]
+    messages = [{"role": "user", "content": "What is this?"}]
     # llama3
     response = _infer_model(pt_engine, messages=messages)
     pt_engine.default_template.template_backend = "jinja"
@@ -359,7 +359,7 @@ def test_ovis1_6_llama3():
     )
     assert (
         response
-        == "这是一只小猫。从图中可见的特征如大眼睛、细长的白色鼻毛和毛发的图案，表明它可能属于常见的猫种。猫的表情和毛发的质感显示出它年轻，可能是幼猫。"
+        == "This is a kitten, exhibiting juvenile features such as large expressive eyes, fine whiskers, and soft juvenile coat."
     )
 
 
@@ -399,12 +399,12 @@ def test_paligemma2():
 
 def test_pixtral():
     pt_engine = PtEngine("AI-ModelScope/pixtral-12b")
-    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}])
+    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}])
 
 
 def test_glm_edge_v():
     pt_engine = PtEngine("ZhipuAI/glm-edge-v-2b")
-    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}])
+    _infer_model(pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}])
 
 
 def test_internvl2_5():
@@ -413,7 +413,7 @@ def test_internvl2_5():
     pt_engine.default_template.template_backend = "jinja"
     _infer_model(
         pt_engine,
-        system="你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。",
+        system="You are InternVL, a multimodal large language model.",
     )
 
 
@@ -429,10 +429,10 @@ def test_internvl2_5_mpo():
         "Tsinghua University and other partners."
     )
     response2 = _infer_model(
-        pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}]
+        pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}]
     )
     assert response2 == (
-        "这是一只小猫的特写照片。照片中的小猫有大大的蓝色眼睛和毛发，看起来非常可爱。这种照片通常用于展示宠物的可爱瞬间。"
+        "This is a close-up photograph of a kitten with blue eyes and fluffy fur, capturing an endearing portrait."
     )
 
 
@@ -452,8 +452,8 @@ def test_megrez_omni():
         ],
     )
     assert response == (
-        "根据图片，无法确定确切的天气状况。然而，猫咪放松的表情和柔和的光线可能暗示着是一个晴朗或温和的日子。"
-        "没有阴影或明亮的阳光表明这不是正午时分，也没有雨滴或雪花的迹象，这可能意味着不是下雨或下雪的日子。"
+        "From the image, ambient lighting suggests a pleasant day with soft indoor illumination."
+        "Diffused lighting without harsh shadows indicates comfortable indoor daylight."
     )
 
 
@@ -462,7 +462,7 @@ def test_molmo():
     pt_engine = PtEngine("LLM-Research/Molmo-7B-D-0924")
     _infer_model(pt_engine)
     response = _infer_model(
-        pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}]
+        pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}]
     )
     assert response == (
         " This is a close-up photograph of a young kitten. "
@@ -477,7 +477,7 @@ def test_molmo():
 def test_molmoe():
     pt_engine = PtEngine("LLM-Research/MolmoE-1B-0924")
     response = _infer_model(
-        pt_engine, messages=[{"role": "user", "content": "<image>这是什么"}]
+        pt_engine, messages=[{"role": "user", "content": "<image>What is this?"}]
     )
     assert response == (
         " This is a close-up photograph of a kitten's face. The kitten has striking blue eyes and "
@@ -491,7 +491,7 @@ def test_molmoe():
 def test_doc_owl2():
     pt_engine = PtEngine("iic/DocOwl2", torch_dtype=torch.float16)
     response = _infer_model(
-        pt_engine, messages=[{"role": "user", "content": "你是谁"}], images=[]
+        pt_engine, messages=[{"role": "user", "content": "Who are you?"}], images=[]
     )
     images = [
         "https://modelscope.cn/models/iic/DocOwl2/resolve/master/examples/docowl2_page0.png",
@@ -595,7 +595,7 @@ def test_phi4_vision():
             "http://modelscope-open.oss-cn-hangzhou.aliyuncs.com/images/weather.wav"
         ],
     )
-    assert response == "今天天气真好呀"
+    assert response == "The weather is really nice today"
 
 
 def test_gemma3_vision():

@@ -57,7 +57,7 @@ def mpa_at_3(actual, predictions):
     return score / total
 
 
-# 计算平均错误率
+# Compute average error rate
 performance = mpa_at_3(actual[args.value], submission[args.value])
 print(performance)
 

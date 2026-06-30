@@ -24,7 +24,7 @@ submission = pd.read_csv(args.predict_file)
 actual.sort_values(by=actual.columns[0])
 submission.sort_values(by=submission.columns[0])
 
-# 计算平均错误率
+# Compute average error rate
 performance = roc_auc_score(actual[args.value], submission[args.value])
 
 

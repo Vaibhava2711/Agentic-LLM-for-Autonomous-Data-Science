@@ -24,7 +24,7 @@ submission = pd.read_csv(args.predict_file)
 
 def mean_spearmanr(y_true, y_pred):
     """
-    计算每列的Spearman's rank correlation coefficient，并取平均值
+    Compute mean column-wise Spearman rank correlation coefficient
     """
     assert (
         y_true.shape == y_pred.shape
@@ -36,14 +36,14 @@ def mean_spearmanr(y_true, y_pred):
     return sum(correlations) / len(correlations)
 
 
-# 提取实际标签和预测结果
+# Extract ground truth labels and predictions
 actual_values = actual.iloc[
     :, 1:
-].values  # 假设实际标签文件中第一列是qa_id，后面是实际标签值
+].values  # Assuming first column is qa_id, followed by actual labels
 predicted_values = submission.iloc[
     :, 1:
-].values  # 假设提交文件中第一列是qa_id，后面是预测标签值
-# 计算MAP@3
+].values  # Assuming first column is qa_id, followed by predicted labels
+# Compute MAP@3
 performance = mean_spearmanr(actual_values, predicted_values)
 
 

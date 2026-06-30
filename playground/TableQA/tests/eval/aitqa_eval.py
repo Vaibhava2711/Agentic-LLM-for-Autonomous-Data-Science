@@ -23,7 +23,7 @@ def extract_answer_from_response(response: str) -> str:
     if last_answer_start == -1:
         return ""
 
-    # 截取从最后一个 <answer> 开始的内容
+    # Extract content starting from the last <Answer> tag
     truncated_response = response[last_answer_start:]
 
     matches = re.findall(r"<Answer>(.*?)</Answer>", truncated_response, re.DOTALL)

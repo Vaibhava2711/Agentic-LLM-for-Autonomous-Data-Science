@@ -27,7 +27,7 @@ def run_client(host: str = '127.0.0.1', port: int = 8000):
     model = client.models.list().data[0].id
     print(f'model: {model}')
 
-    messages = [{'role': 'user', 'content': '浙江 -> 杭州\n安徽 -> 合肥\n四川 ->'}]
+    messages = [{'role': 'user', 'content': 'France -> Paris\nGermany -> Berlin\nItaly ->'}]
     infer(client, model, messages)
 
 

@@ -1,7 +1,5 @@
 # DeepAnalyze Jupyter Frontend
 
-[中文](./README_ZH.md) | English
-
 ## Project Introduction
 
 The DeepAnalyze Jupyter Frontend is a Jupyter Notebook interface implementation for the DeepAnalyze data science agent. This project provides an interactive environment that allows users to interact with the DeepAnalyze model through the familiar Jupyter Notebook interface, enabling complete data science workflows including data preparation, analysis, modeling, visualization, and report generation.
@@ -27,7 +25,7 @@ For more details, see [uv installation documentation](https://docs.astral.sh/uv/
 
 2. Clone the project and enter the directory
 ```bash
-git clone https://github.com/ruc-datalab/DeepAnalyze.git
+git clone https://github.com/Vaibhava2711/Agentic-LLM-for-Autonomous-Data-Science.git
 cd demo/jupyter
 ```
 

@@ -22,7 +22,7 @@ extract_modified_code = code_editing_service.extract_modified_code
 class ExtractModifiedCodeTest(unittest.TestCase):
     def test_extracts_modified_code_tag(self):
         response = """
-说明文字
+Explanation text
 <ModifiedCode>
 print("hello")
 print("world")
@@ -36,7 +36,7 @@ print("world")
 
     def test_extracts_markdown_code_block(self):
         response = """
-下面是修改后的代码：
+Here is the modified code:
 ```python
 value = 1
 print(value)

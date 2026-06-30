@@ -21,7 +21,7 @@ actual = pd.read_csv(args.answer_file)
 submission = pd.read_csv(args.predict_file)
 
 
-# 计算平均绝对误差
+# Compute mean absolute error
 performance = roc_auc_score(actual[args.value], submission[args.value])
 
 

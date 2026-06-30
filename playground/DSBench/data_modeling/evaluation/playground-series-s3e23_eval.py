@@ -25,11 +25,11 @@ predictions = pd.read_csv(args.predict_file)
 
 answers.sort_values(by=["id"])
 predictions.sort_values(by=["id"])
-# 提取预测值和实际标签
+# Extract predictions and ground truth labels
 predicted_values = predictions["defects"].values
-actual_values = answers["defects"].values  # 修改列名为answers
+actual_values = answers["defects"].values  # Use answers column
 
-# 计算RMSE
+# Compute RMSE
 rmse = roc_auc_score(actual_values, predicted_values)
 
 performance = rmse

@@ -10,11 +10,11 @@ def _infer_model(pt_engine, system=None, messages=None, audios=None):
         messages = []
         if system is not None:
             messages += [{"role": "system", "content": system}]
-        messages += [{"role": "user", "content": "你好"}]
+        messages += [{"role": "user", "content": "Hello"}]
         resp = pt_engine.infer([{"messages": messages}], request_config=request_config)
         response = resp[0].choices[0].message.content
         messages += [{"role": "assistant", "content": response}]
-        messages += [{"role": "user", "content": "<audio>这段语音说了什么"}]
+        messages += [{"role": "user", "content": "<audio>What was said in this audio?"}]
     else:
         messages = messages.copy()
     if audios is None:
@@ -61,7 +61,7 @@ def test_step_audio_chat():
         pt_engine, messages=[{"role": "user", "content": "<audio>"}]
     )
     assert response == (
-        "是的呢，今天天气晴朗，阳光明媚，微风和煦，非常适合外出活动。天空湛蓝，白云朵朵，让人心情愉悦。希望你能好好享受这美好的一天！"
+        "Yes, the weather is sunny and clear today, perfect for outdoor activities. Enjoy this beautiful day!"
     )
 
 

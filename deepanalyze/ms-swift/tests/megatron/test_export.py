@@ -19,7 +19,7 @@ def _infer_model(pt_engine, system=None, messages=None):
         response = resp[0].choices[0].message.content
         messages += [
             {"role": "assistant", "content": response},
-            {"role": "user", "content": "<image>这是什么"},
+            {"role": "user", "content": "<image>What is this?"},
         ]
     else:
         messages = messages.copy()

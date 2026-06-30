@@ -14,12 +14,12 @@ def _infer_model(pt_engine, system=None, messages=None):
         messages = []
         if system is not None:
             messages += [{"role": "system", "content": system}]
-        messages += [{"role": "user", "content": "你好"}]
+        messages += [{"role": "user", "content": "Hello"}]
         resp = pt_engine.infer([{"messages": messages}], request_config=request_config)
         response = resp[0].choices[0].message.content
         messages += [
             {"role": "assistant", "content": response},
-            {"role": "user", "content": "<image>这是什么"},
+            {"role": "user", "content": "<image>What is this?"},
         ]
     else:
         messages = messages.copy()
@@ -39,9 +39,9 @@ def _infer_model(pt_engine, system=None, messages=None):
 
 def test_baichuan_m1():
     pt_engine = PtEngine("baichuan-inc/Baichuan-M1-14B-Instruct")
-    messages = [{"role": "user", "content": "你是谁"}]
+    messages = [{"role": "user", "content": "Who are you?"}]
     response = _infer_model(pt_engine, messages=messages)
-    assert response == "我是一个人工智能助手，可以回答你的问题并提供帮助。"
+    assert response == "I am an AI assistant, here to answer your questions and help you."
 
 
 def test_qwen2_5():
@@ -162,13 +162,13 @@ def test_codegeex4():
 
 def test_telechat():
     pt_engine = PtEngine("TeleAI/TeleChat-12B", torch_dtype=torch.float16)
-    messages = [{"role": "user", "content": "你是谁"}]
+    messages = [{"role": "user", "content": "Who are you?"}]
     response = _infer_model(pt_engine, messages=messages)
     assert response == (
-        "我是中国电信星辰语义大模型，英文名TeleChat，是由中国电信自主研发的生成式大语言模型。\n\n"
-        "我基于Transformer-decoder结构，学习了海量知识，包括百科、书籍、论坛、党政媒体、GitHub代码、专业领域知识等，"
-        "具备自然语言处理、语义理解、内容创作和逻辑推理等能力，可以与人类进行对话互动和情感交流，还能提供知识问答、创作写作、"
-        "代码生成等服务，希望能为人类带来更加智能、高效和便捷的工作与生活体验。"
+        "I am TeleChat, a generative large language model.\n\n"
+        "I am based on Transformer architecture and trained on extensive knowledge bases,"
+        "capable of natural language understanding, content generation, and logical reasoning,"
+        "providing code generation and intelligent conversational services."
     )
 
 
@@ -177,9 +177,9 @@ def test_telechat2():
     messages = [
         {
             "role": "system",
-            "content": "你是一个乐于助人的智能助手，请使用用户提问的语言进行有帮助的问答",
+            "content": "You are a helpful AI assistant. Please answer helpfully in the user's language.",
         },
-        {"role": "user", "content": "你好"},
+        {"role": "user", "content": "Hello"},
     ]
     response = _infer_model(pt_engine, messages=messages)
     pt_engine.default_template.template_backend = "jinja"

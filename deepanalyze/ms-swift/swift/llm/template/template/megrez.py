@@ -19,7 +19,7 @@ class MegrezTemplateMeta(TemplateMeta):
                            ['<|role_start|>user<|role_end|>{{QUERY}}<|turn_end|><|role_start|>assistant<|role_end|>'])
     chat_sep: Optional[Prompt] = field(default_factory=lambda: ['<|turn_end|>'])
     suffix: Prompt = field(default_factory=lambda: ['<|turn_end|>'])
-    default_system: str = '你是Megrez-3B-Instruct，将针对用户的问题给出详细的、积极的回答。'
+    default_system: str = 'You are Megrez-3B-Instruct, providing detailed and positive responses to user questions.'
 
 
 register_template(MegrezTemplateMeta(LLMTemplateType.megrez))

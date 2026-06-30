@@ -7,7 +7,7 @@ def test_llm():
 def test_lora():
     from swift.llm import app_main, AppArguments
 
-    app_main(AppArguments(adapters="swift/test_lora", lang="en", studio_title="小黄"))
+    app_main(AppArguments(adapters="swift/test_lora", lang="en", studio_title="DeepAnalyze"))
 
 
 def test_mllm():

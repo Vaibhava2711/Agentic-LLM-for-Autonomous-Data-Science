@@ -19,7 +19,7 @@ def run_client(host: str = '127.0.0.1', port: int = 8000):
     engine = InferClient(host=host, port=port)
     print(f'models: {engine.models}')
 
-    infer_requests = [InferRequest(messages=[{'role': 'user', 'content': '浙江 -> 杭州\n安徽 -> 合肥\n四川 ->'}])]
+    infer_requests = [InferRequest(messages=[{'role': 'user', 'content': 'France -> Paris\nGermany -> Berlin\nItaly ->'}])]
     infer_batch(engine, infer_requests)
 
 

@@ -10,7 +10,7 @@ PATTERNS=[
 ]
 def extract_pattern(pred: str, pattern: str):
     match = re.findall(pattern, pred)
-    # 从pred中extract出一个answerlist，代表所有可能的answer
+    # Extract candidate answer list from pred representing all possible answers
     if match:
         extracted_answer = match[-1]
         if pattern==r"\\boxed\{((?:[^{}]|\\{|\\}|(?:\{(?:[^{}]|\\{|\\}|(?:\{(?:[^{}]|\\{|\\}|(?:\{[^{}]*\}))*\}))*\}))*\})": extracted_answer=extracted_answer[:-1]
@@ -25,7 +25,7 @@ SPLIT=[
 ]
 def extract_split(pred: str, split: str):
     '''
-    最后一个换行符之后的部分
+    Extract content after the last split delimiter
     '''
     pred=pred.split(split)[-1]
     return pred.strip("*").strip().strip("*")

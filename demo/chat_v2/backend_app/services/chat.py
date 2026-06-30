@@ -272,7 +272,7 @@ def _normalize_temperature(value: Any) -> float:
 
 
 def _prefix_initial_analyze_tag(content: str) -> str:
-    """首轮输出未以已知动作标签开头时，只补齐 Analyze 开标签。"""
+    """Prepend <Analyze> opening tag when initial turn does not begin with an action tag."""
     raw = content or ""
     if not raw.strip() or _ACTION_TAG_AT_START_RE.match(raw):
         return raw
@@ -874,7 +874,7 @@ def bot_stream(
             if normalized_res != cur_res.strip():
                 logger.info("normalized model action format for session %s", session_id)
             if not stream_model_output:
-                # 普通文本或格式漂移响应需要先规范化后展示；符合协议的标签响应已在上面逐增量转发。
+                # Plaintext or drifted responses must be normalized before display; compliant tags were streamed incrementally above.
                 yield normalized_res
             cur_res = normalized_res
 

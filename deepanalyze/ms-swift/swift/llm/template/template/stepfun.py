@@ -78,7 +78,7 @@ class GOT_OCR2HfTemplate(Template):
         assert media_type == 'image'
         return ['<img>' + '<imgpad>' * 256 + '</img>\n']
 
-    def _encode(self, inputs: StdTemplateInputs) -> Dict[str, Any]:  # 暂时照抄上面
+    def _encode(self, inputs: StdTemplateInputs) -> Dict[str, Any]:  # Follow standard template logic above
         encoded = super()._encode(inputs)
         images = inputs.images
         if images:

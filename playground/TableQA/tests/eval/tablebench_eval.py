@@ -137,7 +137,7 @@ def process_result_file(results_file: str) -> Dict[str, Dict]:
             "gold_answer": gold_answer,
             "answer_type": answer_type,
             "scale": scale,
-            "qtype": qtype,  # 保存问题类型
+            "qtype": qtype,  # Preserve question type
         }
 
     return processed_results

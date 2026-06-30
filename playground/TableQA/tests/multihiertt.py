@@ -123,7 +123,7 @@ def format_table_description(table_desc):
     """Format table description as a string"""
     result = []
 
-    # 对每个表格描述项进行格式化
+    # Format each table description item
     for key, desc in table_desc.items():
         result.append(f"{desc}")
 

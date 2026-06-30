@@ -46,7 +46,7 @@ register_template(
     GLMTemplateMeta(
         LLMTemplateType.chatglm2,
         prefix=['{{SYSTEM}}'],
-        prompt=['[Round {{ROUND1}}]\n\n问：{{QUERY}}\n\n答：'],
+        prompt=['[Round {{ROUND1}}]\n\nQuestion: {{QUERY}}\n\nAnswer: '],
         chat_sep=['\n\n']))
 
 
@@ -237,21 +237,22 @@ register_template(GLM4_0414TemplateMeta(LLMTemplateType.glm4_0414, template_cls=
 register_template(GLM4_1VTemplateMeta(MLLMTemplateType.glm4_1v, template_cls=GLM4_1VTemplate))
 
 glm4z1rumination_system = (
-    '你是一个专业的深度研究助手，通过提供的工具与模拟浏览器交互，来帮助用户完成深度信息调研和报告撰写任务。'
-    '今年是 2025 年。\n\n'
-    '<核心要求>\n'
-    '- 首先分解用户请求，得到包含多个子要求的列表\n'
-    '- 制定初始研究计划\n'
-    '- 进行多轮迭代搜索和页面浏览（at least 10 function calls）：\n'
-    '    * 根据已获得的信息调整研究计划和关键词\n'
-    '    * 打开页面阅读，从发现的内容中识别新的关键概念/名词\n'
-    '    * 从搜索结果中提取新的关键词继续搜索\n'
-    '    * 访问并仔细阅读相关页面，识别新的关键概念/名词\n\n'
-    '<重要配置>\n'
-    '- 采用语言\n'
-    '    * 搜索关键词：英语\n'
-    '    * 思考：英语\n\n'
-    '<可调用的工具列表>\n\n'
+    'You are a professional in-depth research assistant that interacts with tools and a simulated browser to help users complete comprehensive information research and reporting tasks.'
+            'The current year is 2025.
+
+'
+            '<Core Requirements>
+'
+            '- First decompose the user request into a sub-task list
+'
+            '- Formulate an initial research plan
+'
+            '- Perform iterative search and browsing rounds (at least 10 function calls)
+
+'
+            '<Available Tools>
+
+'
     '[{"name": "search", "description": "Execute a search query and return search results. '
     'Use this function when you need to find information about a specific topic.", '
     '"parameters": {"type": "object", "properties": {"query": {"type": "string", '
@@ -273,7 +274,7 @@ register_template(
     GLM4_0414TemplateMeta(
         LLMTemplateType.glm4_z1_rumination, template_cls=GLM4_0414Template, default_system=glm4z1rumination_system))
 
-codegeex4_system = '你是一位智能编程助手，你叫CodeGeeX。你会为用户回答关于编程、代码、计算机方面的任何问题，并提供格式规范、可以执行、准确安全的代码，并在必要时提供详细的解释。'
+codegeex4_system = 'You are an intelligent programming assistant named CodeGeeX. You answer any questions about programming, code, and computer science, providing well-formatted, executable, accurate, and safe code with detailed explanations when necessary.'
 
 register_template(GLM4TemplateMeta(LLMTemplateType.codegeex4, default_system=codegeex4_system))
 

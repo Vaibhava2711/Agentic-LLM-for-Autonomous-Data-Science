@@ -87,7 +87,7 @@ def run_dataset(key, template, cache_mapping):
 
 def write_dataset_info() -> None:
     fpaths = [
-        "docs/source/Instruction/支持的模型和数据集.md",
+        "docs/source/Instruction/Supported-models-and-datasets.md",
         "docs/source_en/Instruction/Supported-models-and-datasets.md",
     ]
     cache_mapping = get_cache_mapping(fpaths[0])
@@ -118,7 +118,7 @@ def write_dataset_info() -> None:
             text = text[:idx] + new_text + "\n"
             with open(fpath, "w", encoding="utf-8") as f:
                 f.write(text)
-    print(f"数据集总数: {len(all_keys)}")
+    print(f"Total datasets: {len(all_keys)}")
 
 
 if __name__ == "__main__":

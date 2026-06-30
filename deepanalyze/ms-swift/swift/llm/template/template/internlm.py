@@ -16,11 +16,11 @@ from ..vision_utils import load_file
 from .utils import ChatmlTemplateMeta
 
 INTERNLM_SYSTEM = (
-    'You are an AI assistant whose name is InternLM (书生·浦语).\n'
-    '- InternLM (书生·浦语) is a conversational language model that is developed by Shanghai AI Laboratory (上海人工智能实验室). '
+    'You are an AI assistant whose name is InternLM .\n'
+    '- InternLM  is a conversational language model that is developed by Shanghai AI Laboratory . '
     'It is designed to be helpful, honest, and harmless.\n'
-    '- InternLM (书生·浦语) can understand and communicate fluently in the language chosen '
-    'by the user such as English and 中文.')
+    '- InternLM  can understand and communicate fluently in the language chosen '
+    'by the user such as English.')
 
 register_template(
     TemplateMeta(
@@ -157,23 +157,23 @@ register_template(
     Xcomposer2TemplateMeta(
         MLLMTemplateType.xcomposer2,
         template_cls=InternLMXComposer2Template,
-        default_system=('You are an AI assistant whose name is InternLM-XComposer (浦语·灵笔).\n'
-                        '- InternLM-XComposer (浦语·灵笔) is a conversational language model that is developed by '
-                        'Shanghai AI Laboratory (上海人工智能实验室). '
+        default_system=('You are an AI assistant whose name is InternLM-XComposer .\n'
+                        '- InternLM-XComposer  is a conversational language model that is developed by '
+                        'Shanghai AI Laboratory . '
                         'It is designed to be helpful, honest, and harmless.\n'
-                        '- InternLM-XComposer (浦语·灵笔) can understand and communicate fluently in the language chosen '
-                        'by the user such as English and 中文.'),
+                        '- InternLM-XComposer  can understand and communicate fluently in the language chosen '
+                        'by the user such as English.'),
     ))
 
 
 class InternLMXComposer2_5Template(InternLMXComposer2Template):
-    system = ('You are an AI assistant whose name is InternLM-XComposer (浦语·灵笔).\n'
-              '- InternLM-XComposer (浦语·灵笔) is a multi-modality conversational language model '
-              'that is developed by Shanghai AI Laboratory (上海人工智能实验室). '
+    system = ('You are an AI assistant whose name is InternLM-XComposer .\n'
+              '- InternLM-XComposer  is a multi-modality conversational language model '
+              'that is developed by Shanghai AI Laboratory . '
               'It is designed to be helpful, honest, and harmless.\n'
-              '- InternLM-XComposer (浦语·灵笔) can understand and communicate fluently in the language chosen '
-              'by the user such as English and 中文.\n'
-              '- InternLM-XComposer (浦语·灵笔) is capable of comprehending and articulating responses effectively '
+              '- InternLM-XComposer  can understand and communicate fluently in the language chosen '
+              'by the user such as English.\n'
+              '- InternLM-XComposer  is capable of comprehending and articulating responses effectively '
               'based on the provided image.')
     version = 'v2.5'
 

@@ -14,12 +14,12 @@ def _infer_model(pt_engine, system=None, messages=None, videos=None, max_tokens=
     if not messages:
         if system is not None:
             messages += [{"role": "system", "content": system}]
-        messages += [{"role": "user", "content": "你好"}]
+        messages += [{"role": "user", "content": "Hello"}]
         resp = pt_engine.infer([{"messages": messages}], request_config=request_config)
         response = resp[0].choices[0].message.content
         messages += [
             {"role": "assistant", "content": response},
-            {"role": "user", "content": "<video>描述视频"},
+            {"role": "user", "content": "<video>Describe the video"},
         ]
     else:
         messages = messages.copy()
@@ -53,18 +53,18 @@ def test_internvl2_5():
     pt_engine.default_template.template_backend = "jinja"
     _infer_model(
         pt_engine,
-        system="你是书生·万象，英文名是InternVL，是由上海人工智能实验室、清华大学及多家合作单位联合开发的多模态大语言模型。",
+        system="You are InternVL, a multimodal large language model.",
     )
 
 
 def test_internvl2_5_mpo():
     pt_engine = PtEngine("OpenGVLab/InternVL2_5-1B-MPO", model_type="internvl2_5")
     response = _infer_model(
-        pt_engine, messages=[{"role": "user", "content": "<video>这是什么"}]
+        pt_engine, messages=[{"role": "user", "content": "<video>What is this?"}]
     )
     assert response == (
-        "这是一段婴儿在阅读的视频。婴儿穿着浅绿色的上衣和粉色的裤子，戴着黑框眼镜，坐在床上，正在翻阅一本打开的书。"
-        "背景中可以看到婴儿床、衣物和一些家具。视频中可以看到“clipo.com”的水印。婴儿看起来非常专注，似乎在认真地阅读。"
+        "This is a video of an infant reading. The infant is wearing a light green shirt and pink pants, with black-rimmed glasses, sitting on a bed and flipping through an open book."
+        "A crib and furniture are visible in the background. The infant appears very focused on reading."
     )
 
 
@@ -182,7 +182,7 @@ def test_qwen2_5_omni():
             "shape is well-defined. What made you choose to draw a guitar?"
         )
     else:
-        ground_truth = "嗯，你是在用平板画画呢。你画的这把吉他，看起来很简洁明了。你用的笔触也很流畅，线条很清晰。你对颜色的运用也很不错，整体看起来很协调。你要是还有啥想法或者问题，随时跟我说哈。"
+        ground_truth = "You are drawing on a tablet. The guitar you drew looks very clean and clear, with smooth strokes and harmonious colors."
     assert response == response2 == ground_truth
 
 

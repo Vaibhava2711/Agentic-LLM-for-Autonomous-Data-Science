@@ -389,5 +389,5 @@ A comparison of training speed and GPU memory usage when performing full-paramet
 
 |          | Megatron-LM | DeepSpeed-ZeRO2 | DeepSpeed-ZeRO3 |
 | -------- | ----------- | --------------- | --------------- |
-| 训练速度 | 9.6s/it     | -               | 91.2s/it        |
-| 显存使用 | 16 * 60GiB  | OOM             | 16 * 80GiB      |
+| Training Speed | 9.6s/it     | -               | 91.2s/it        |
+| VRAM Usage      | 16 * 60GiB  | OOM             | 16 * 80GiB      |

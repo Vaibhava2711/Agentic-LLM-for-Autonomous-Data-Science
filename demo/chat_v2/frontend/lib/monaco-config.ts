@@ -5,7 +5,7 @@ export function configureMonaco() {
     return;
   }
 
-  // 使用本地 dev 资源，规避 min 资源首次初始化时的一次性异常。
+  // Use local dev resources to avoid initial bundle initialization anomalies.
   loader.config({
     paths: {
       vs: "/monaco-editor/dev/vs",

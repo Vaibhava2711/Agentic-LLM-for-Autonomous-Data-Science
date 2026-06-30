@@ -17,7 +17,7 @@ class AlpacaZhPreprocessor(AlpacaPreprocessor):
 
     @classmethod
     def concat_inst_input(cls, instruction, input_):
-        if input_ and input_.startswith('输入：'):
+        if input_ and input_.startswith('Input:'):
             input_ = input_[3:]
         return super().concat_inst_input(instruction, input_)
 
@@ -429,7 +429,7 @@ class MultiRoleAgentPreprocessor(RowPreprocessor):
 
     def preprocess(self, row: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         conv = row['conversations']
-        res_prompt = '\n\n【注意事项】\n1. 这是聊天室，不要发送私信给任何人\n2. 仅代表你个人说话,不要扮演其他人，只根据对话历史进行回复\n3. 长话短说，不要说太多话，不要超过50字 '
+        res_prompt = '\n\n[Guidelines]\n1. This is a chat room, do not send private messages to anyone\n2. Speak only for yourself, do not roleplay others, reply based only on conversation history\n3. Keep it brief, do not exceed 50 words '
         history_prompt = '\n\n【chat history】'
         conv_prompt = '\n {name}:{content}'
         query, response = '', conv[-1]['value']
@@ -437,7 +437,7 @@ class MultiRoleAgentPreprocessor(RowPreprocessor):
         if conv[0]['from'] == 'user':
             query = conv[0]['value']
         elif 'next_speakers:' not in system:
-            if '【注意事项】' not in system and system:
+            if '[Guidelines]' not in system and system:
                 system += res_prompt
             system += history_prompt
             system += ''.join([conv_prompt.format(name=c['from'], content=c['value']) for c in conv[1:-1]])

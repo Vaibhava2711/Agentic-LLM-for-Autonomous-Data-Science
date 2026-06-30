@@ -9,20 +9,20 @@ import requests
 from swift.version import __version__
 
 
-# 打标
+# Tagging
 class ModelTag(object):
     _URL = os.environ.get("MODEL_TAG_URL", None)
 
-    # 模型测试结果
+    # Model test results
     BATCH_COMMIT_RESULT_URL = f"{_URL}/batchCommitResult"
-    # 测试阶段完成
+    # Testing phase completed
     BATCH_REFRESH_STAGE_URL = f"{_URL}/batchRefreshStage"
     # query_model_stage
     QUERY_MODEL_STAGE_URL = f"{_URL}/queryModelStage"
 
     HEADER = {"Content-Type": "application/json"}
 
-    # 检测结果
+    # Check results
     MODEL_SKIP = 0
     MODEL_FAIL = 1
     MODEL_PASS = 2
@@ -50,7 +50,7 @@ class ModelTag(object):
         # ItemResult list
         self.item_result = []
 
-    # 发送请求
+    # Send request
     def _post_request(self, url, param):
         try:
             logging.info(url + " query: " + str(json.dumps(param, ensure_ascii=False)))
@@ -60,7 +60,7 @@ class ModelTag(object):
                 data=json.dumps(param, ensure_ascii=False).encode("utf8"),
             )
             if res.status_code == 200:
-                logging.info(f"{url} post结果: " + res.text)
+                logging.info(f"{url} post result: " + res.text)
                 res_json = json.loads(res.text)
                 if int(res_json["errorCode"]) == 200:
                     return res_json["content"]
@@ -73,7 +73,7 @@ class ModelTag(object):
 
         return None
 
-    # 提交模型测试结果
+    # Submit model test results
     def batch_commit_result(self):
         try:
             param = {
@@ -98,7 +98,7 @@ class ModelTag(object):
 
         return
 
-    # 测试阶段完成
+    # Testing phase completed
     def batch_refresh_stage(self):
         try:
             param = {
@@ -117,7 +117,7 @@ class ModelTag(object):
 
         return
 
-    # 查询模型某个阶段的最新测试结果（只返回单个结果
+    # Query latest test result for stage (returns single result
     def query_model_stage(self):
         try:
             param = {
@@ -133,7 +133,7 @@ class ModelTag(object):
 
         return None
 
-    # 提交模型UT测试结果
+    # Submit model UT test results
     """
         model_tag = ModelTag()
         model_tag.model = "XXX"
