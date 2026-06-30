@@ -59,11 +59,12 @@ def _get_port_env(name: str, default: int) -> int:
 _load_demo_env()
 
 
-CHINESE_MATPLOTLIB_BOOTSTRAP = """
+DEFAULT_MATPLOTLIB_BOOTSTRAP = """
 import matplotlib.pyplot as plt
-plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica', 'SimHei', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
 """
+CHINESE_MATPLOTLIB_BOOTSTRAP = DEFAULT_MATPLOTLIB_BOOTSTRAP
 
 
 PREVIEWABLE_EXTENSIONS = {

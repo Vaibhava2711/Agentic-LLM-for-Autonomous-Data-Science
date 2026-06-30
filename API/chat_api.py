@@ -26,11 +26,12 @@ from utils import (
     generate_report_from_messages, extract_code_from_segment
 )
 
-Chinese_matplot_str = """
+default_matplot_str = """
 import matplotlib.pyplot as plt
-plt.rcParams['font.sans-serif'] = ['SimHei'] 
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica', 'sans-serif'] 
 plt.rcParams['axes.unicode_minus'] = False    
 """
+Chinese_matplot_str = default_matplot_str
 
 
 # Initialize OpenAI clients for vllm
