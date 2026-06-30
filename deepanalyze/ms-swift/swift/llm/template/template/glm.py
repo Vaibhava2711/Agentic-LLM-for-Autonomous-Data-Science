@@ -238,7 +238,7 @@ register_template(GLM4_1VTemplateMeta(MLLMTemplateType.glm4_1v, template_cls=GLM
 
 glm4z1rumination_system = (
     'You are a professional in-depth research assistant that interacts with tools and a simulated browser to help users complete comprehensive information research and reporting tasks.\n'
-    'The current year is 2025.\n\n'
+    'The current year is 2026.\n\n'
     '<Core Requirements>\n'
     '- First decompose the user request into a sub-task list\n'
     '- Formulate an initial research plan\n'
